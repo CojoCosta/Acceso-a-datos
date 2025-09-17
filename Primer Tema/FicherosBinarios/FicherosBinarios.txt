@@ -1,0 +1,15 @@
+Leer byte a byte:
+
+Entrada: FileInputStream in = new FileInputStream(fichero);
+
+Salida: FileInputStream out = new FileOutputStream(fichero);
+
+Tipos Primitivos:
+
+Entrada: DataInputStream dIn = new DataInputStream(in)
+
+Salida: DataOutputStream dIn = new DataOutputStream(out)
+
+Objetos:
+Entrada: ObjectInputStream oIn = new ObjectInputStream(in)
+Salida: ObjectOutputStream oIn = new ObjectOutputStream(out)
