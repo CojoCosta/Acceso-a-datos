@@ -13,9 +13,9 @@ public class Ejercicio9 {
             System.out.println("5.- Salir");
             try {
                 option = sc.nextInt();
+                sc.nextLine();
             } catch (InputMismatchException e) {
             }
-            sc.nextLine();
             switch (option) {
                 case 1:
                     
