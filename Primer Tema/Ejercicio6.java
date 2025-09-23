@@ -32,8 +32,23 @@ public class Ejercicio6 {
         }
     }
 
+    public static void unirArchivos(String [] ficheros) throws IOException {
+        for (int i = 0; i < ficheros.length; i++) {
+            try (Scanner sc = new Scanner(new File(ficheros[i]))) {
+                while (sc.hasNext()) {
+                    try (FileWriter fw = new FileWriter(new File("archivoUnion.txt"),true)) {
+                        fw.write(sc.nextLine());
+                        fw.write(System.lineSeparator());
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
-        archivoPorCaracteres(40);
-        archivoPorLineas(3);
+        // archivoPorCaracteres(40);
+        // archivoPorLineas(3);
+        String[] ficheros = {"prueba.txt", "AscendenteSensible.txt"};
+        unirArchivos(ficheros);
     }
 }
