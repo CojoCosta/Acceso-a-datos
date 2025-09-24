@@ -1,3 +1,0 @@
-Codigo del alumno: 4356 
-Nombre del alumno: Diego 
-Altura del alumno: 1,74

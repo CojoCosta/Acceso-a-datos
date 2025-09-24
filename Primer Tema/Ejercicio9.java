@@ -1,42 +1,53 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Ejercicio9 {
     static public int codigo;
     static public String nombre;
-    static public double altura; 
+    static public double altura;
+    static public Alumno datos;
+    static public ArrayList <Alumno> alumnos = new ArrayList<>();
+    static public FileOutputStream fos = null;
+    static public FileInputStream fis = null;
 
     public static void altaAlumnos()throws IOException{
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Codigo: ");
-        try {
-            codigo = sc.nextInt();
-        } catch (IllegalArgumentException e) {
-            System.err.println("numero entero");
+        datos = new Alumno();
+        fos = new FileOutputStream(new File("alumnos.dat"));
+        try (DataOutputStream dos = new DataOutputStream(fos)) {
+            dos.writeInt(datos.getCodigo());
+            dos.writeUTF(datos.getNombre());
+            dos.writeFloat(datos.getAltura());
         }
-        sc.nextLine();
-        System.out.print("Nombre: ");
-        nombre = sc.nextLine();
-        System.out.print("Altura: ");
-        try {
-            altura = sc.nextDouble();
-        } catch (IllegalArgumentException e) {
-            System.err.println("numero decimal");
-        }
-        sc.nextLine();
-
-        try (FileWriter fw = new FileWriter(new File("alumnos.txt"))){
-            fw.write(String.format("Codigo del alumno: %d \nNombre del alumno: %s \nAltura del alumno: %.2f",codigo, nombre, altura));
+        alumnos.add(datos);
+    }
+    
+    public static void consultarAlumnos()throws IOException{
+        fis = new FileInputStream("alumnos.dat");
+        try (DataInputStream dis = new DataInputStream(fis)){
+            for (Alumno alumno : alumnos) {
+                System.out.println(dis.readInt());
+                System.out.println(dis.readUTF());
+                System.out.println(dis.readFloat());
+            }
         }
     }
-
-    public static void consultarAlumnos()throws IOException{
+    
+    public static void modificarAlumnos()throws IOException{
+        
+    }
+    
+    public static void eliminarAlumnos()throws IOException{
 
     }
     public static void main(String[] args) throws IOException {
+        
         Scanner sc = new Scanner(System.in);
         int option = 0;
         do {
@@ -55,13 +66,13 @@ public class Ejercicio9 {
                     altaAlumnos();                    
                     break;
                 case 2:
-                    
+                    consultarAlumnos();
                     break;
                 case 3:
-                    
+                    modificarAlumnos();
                     break;
                 case 4:
-                    
+                    eliminarAlumnos();
                     break;
                 case 5:
                     System.out.println("Saliste");

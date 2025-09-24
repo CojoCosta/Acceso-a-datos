@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import Cliente;
+
 public class Ejemplo12 {
     public static void main(String[] args) {
         //ESCRIBIR OBJETOS
