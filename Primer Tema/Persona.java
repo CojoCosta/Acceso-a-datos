@@ -1,4 +1,4 @@
-package FicherosBinarios;
+
 
 public class Persona {
     private String nombre;
@@ -13,6 +13,14 @@ public class Persona {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+    
     public int getEdad() {
         return edad;
     }

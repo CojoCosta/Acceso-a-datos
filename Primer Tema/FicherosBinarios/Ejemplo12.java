@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import Cliente;
+import Persona;
 
 public class Ejemplo12 {
     public static void main(String[] args) {
