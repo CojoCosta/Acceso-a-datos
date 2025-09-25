@@ -4,11 +4,11 @@ class Alumno {
     private float altura;
 
     public Alumno(){
-        this("Diego",7,1.74F);
+        this(7, "Diego",1.74F);
     }
-    public Alumno(String nombre, int codigo, float altura) {
-        this.nombre = nombre;
+    public Alumno(int codigo, String nombre, float altura) {
         this.codigo = codigo;
+        this.nombre = nombre;
         this.altura = altura;
     }
 
