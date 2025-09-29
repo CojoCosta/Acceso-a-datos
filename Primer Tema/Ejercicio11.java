@@ -16,7 +16,7 @@ public class Ejercicio11 {
     }
     public static void pruebaFileStream() throws IOException{
         try(FileInputStream fis = new FileInputStream("prueba100MB.txt")){
-            try(FileOutputStream fos = new FileOutputStream("prueba100MB2.txt")){
+            try(FileOutputStream fos = new FileOutputStream("prueba100MB3.txt")){
                 while (fis.read() != -1) {
                     fos.write(fis.read());
                 }
@@ -28,11 +28,11 @@ public class Ejercicio11 {
         long tiempoI = System.nanoTime();
         pruebaBufferStream();
         long tiempoF = System.nanoTime();
-        System.out.println("Tiempo BufferedInputStream/ BufferedOutputStream: " + (tiempoF - tiempoI)/1000000);
+        System.out.println("Tiempo BufferedInputStream/ BufferedOutputStream: " + (tiempoF - tiempoI)/1000000 + "n/s");
         long tiempoInicio = System.nanoTime();
-        pruebaBufferStream();
+        pruebaFileStream();
         long tiempoFinal = System.nanoTime();
-        System.out.println("Tiempo FileInputStream/FileOutputStream: " + (tiempoFinal - tiempoInicio)/1000000);
+        System.out.println("Tiempo FileInputStream/FileOutputStream: " + (tiempoFinal - tiempoInicio)/1000000 + "n/s");
 
     }
 }
