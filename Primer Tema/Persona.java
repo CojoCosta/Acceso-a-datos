@@ -24,4 +24,9 @@ public class Persona {
     public int getEdad() {
         return edad;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " / " + edad;
+    }
 }

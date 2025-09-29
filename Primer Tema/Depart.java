@@ -22,4 +22,8 @@ public class Depart {
         this("", 0);
     }
 
+    @Override
+    public String toString() {
+        return nombre + " / " + codigo;
+    }
 }

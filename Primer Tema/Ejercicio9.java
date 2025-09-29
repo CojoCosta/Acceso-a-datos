@@ -67,7 +67,6 @@ public class Ejercicio9 {
                     dos.writeUTF(dis.readUTF());
                     dos.writeDouble(dis.readDouble());
                 }
-
             }
         } catch (EOFException e) {
             System.out.println("Fin de archivo");
