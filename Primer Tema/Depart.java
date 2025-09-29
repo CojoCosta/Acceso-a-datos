@@ -14,11 +14,12 @@ public class Depart {
     public String getNombre() {
         return nombre;
     }
-    public Depart(int codigo, String nombre) {
-        this.codigo = codigo;
+    public Depart(String nombre, int codigo) {
         this.nombre = nombre;
+        this.codigo = codigo;
     }
     public Depart(){
-        this(0, "");
+        this("", 0);
     }
+
 }
