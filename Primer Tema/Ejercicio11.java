@@ -33,6 +33,6 @@ public class Ejercicio11 {
         pruebaFileStream();
         long tiempoFinal = System.nanoTime();
         System.out.println("Tiempo FileInputStream/FileOutputStream: " + (tiempoFinal - tiempoInicio)/1000000 + "n/s");
-
+        Buffer bf1 = 
     }
 }
