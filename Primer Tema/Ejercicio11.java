@@ -50,5 +50,6 @@ public class Ejercicio11 {
         pruebaFileStream(buffer1000);
         long tiempoF1000 = System.nanoTime();
         System.out.println("Tiempo FileInputStream/FileOutputStream(1000): " + (tiempoF1000 - tiempoI1000) / 10000000 + "n/s");
+        // EYYYYYYYYYYYYY
     }
 }
