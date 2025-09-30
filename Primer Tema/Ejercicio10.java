@@ -21,7 +21,7 @@ public class Ejercicio10 {
     }
 
     public static void escribirArchivo(File fichero, ArrayList<Object> objetos) {
-        try (FileOutputStream fos = new FileOutputStream(fichero);
+        try (FileOutputStream fos = new FileOutputStream(fichero, true);
                 ObjectOutputStream out = new ObjectOutputStream(fos)) {
             for (Object obj : objetos) {
                 out.writeObject(obj);

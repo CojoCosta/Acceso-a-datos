@@ -1,33 +1,43 @@
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Ejercicio4 {
-    public static void main(String[] args) {
-        FileReader fr = null;
-        Map<Character, Integer> frecuencias = new HashMap<>();
-        try {
-            fr = new FileReader("ejemplo.txt");
-            int codigoCaracter;
-            while ((codigoCaracter = fr.read()) != -1) {
-                char caracterLeido = (char) codigoCaracter;
-                frecuencias.put(caracterLeido, frecuencias.getOrDefault(caracterLeido, 0) + 1); // Pone en la lista de frecuencias el caracter leído, si ya estaba antes le sube 1 a su frecuencia sin añadir un nuevo  elemento a la lista
-            }
 
-            fr.close();
-        } catch (IOException e) {
-            System.out.println("error al leer el archivo");
+    public static ArrayList<Character> leerArchivo (String archivo){
+        ArrayList<Character> chars = new ArrayList<>();
+        try(Scanner sc = new Scanner(new File(archivo))){
+            while (sc.hasNextLine()) {
+                String linea = sc.nextLine();
+                for (int i = 0; i < linea.length(); i++) {
+                    chars.add(linea.charAt(i));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("No se encuentra ningun archivo");
         }
-        char caracterMasFrecuente = ' '; // Inicializa un valor por defecto
-        int maxFrecuencia = 0;
-        for (Map.Entry<Character, Integer> entry : frecuencias.entrySet()) {
-            if (entry.getValue() > maxFrecuencia) {
-                maxFrecuencia = entry.getValue();
-                caracterMasFrecuente = entry.getKey();
+        return chars;
+    }
+    
+    public static void charMasRepetido(ArrayList<Character> chars){
+        char mayor = ' ';
+        int masRepes = 0;
+        for (Character character : chars) {
+            int contador = 0;
+            for (int i = 0; i < chars.size(); i++) {
+                if (character == chars.get(i)) {
+                    contador++;
+                }
+            }
+            if (contador > masRepes) {
+                masRepes = contador;
+                mayor = character;
             }
         }
-        System.out.println(
-                "El caracter mas usado es: " + caracterMasFrecuente + " con una frecuencia de: " + maxFrecuencia);
+        System.out.println("Carácter más repetido: '" + mayor + "' con " + masRepes + " repeticiones.");
+    }
+    
+    public static void main(String[] args) {
+        charMasRepetido(leerArchivo("ejemplo.txt"));
     }
 }

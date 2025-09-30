@@ -3,7 +3,6 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.Buffer;
 
 public class Ejercicio11 {
     public static void pruebaBufferStream() throws IOException {
@@ -23,9 +22,6 @@ public class Ejercicio11 {
                 while ((i = fis.read()) != -1) {
                     System.out.print(new String(bf, 0, i));
                 }
-                // while (fis.read() != -1) {
-                //     fos.write(fis.read());
-                // }
             }
         }
     }
@@ -33,30 +29,26 @@ public class Ejercicio11 {
     public static void main(String[] args) throws IOException {
         char buffer10[] = new char[10];
         char buffer100[] = new char[100];
-        char buffer1000[] = new char[100];
+        char buffer1000[] = new char[1000];
 
         long tiempoI = System.nanoTime();
         pruebaBufferStream();
         long tiempoF = System.nanoTime();
-        System.out
-                .println("Tiempo BufferedInputStream/ BufferedOutputStream: " + (tiempoF - tiempoI) / 10000000 + "n/s");
+        System.out.println("Tiempo BufferedInputStream/ BufferedOutputStream: " + (tiempoF - tiempoI) / 10000000 + "n/s");
 
         long tiempoI10 = System.nanoTime();
         pruebaFileStream(buffer10);
         long tiempoF10 = System.nanoTime();
-        System.out
-                .println("Tiempo FileInputStream/FileOutputStream(10): " + (tiempoF10 - tiempoI10) / 10000000 + "n/s");
+        System.out.println("Tiempo FileInputStream/FileOutputStream(10): " + (tiempoF10 - tiempoI10) / 10000000 + "n/s");
 
         long tiempoI100 = System.nanoTime();
         pruebaFileStream(buffer100);
         long tiempoF100 = System.nanoTime();
-        System.out.println(
-                "Tiempo FileInputStream/FileOutputStream(100): " + (tiempoF100 - tiempoI100) / 10000000 + "n/s");
+        System.out.println("Tiempo FileInputStream/FileOutputStream(100): " + (tiempoF100 - tiempoI100) / 10000000 + "n/s");
 
         long tiempoI1000 = System.nanoTime();
         pruebaFileStream(buffer1000);
         long tiempoF1000 = System.nanoTime();
-        System.out.println(
-                "Tiempo FileInputStream/FileOutputStream(1000): " + (tiempoF1000 - tiempoI1000) / 10000000 + "n/s");
+        System.out.println("Tiempo FileInputStream/FileOutputStream(1000): " + (tiempoF1000 - tiempoI1000) / 10000000 + "n/s");
     }
 }

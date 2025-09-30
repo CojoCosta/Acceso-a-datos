@@ -78,6 +78,7 @@ public class Ejercicio9 {
         } else {
             archivoTemporal.delete();
         }
+        sc.close();
     }
 
     public static void eliminarAlumnos(int codigoAlumno, String nombreArchivo) throws IOException {
