@@ -21,11 +21,11 @@ public class creacionDom {
         return doc;
     }
     public static void main(String[] args) {
+        String ruta = "archivo.xml";
+        Document doc = creaArbol(ruta);
         Node peliculas, p, hijo;
         NodeList pelicula, hijos;
-        String ruta = "archivo.xml";
         NamedNodeMap atributos;
-        Document doc = creaArbol(ruta);
         peliculas = doc.getFirstChild();
         pelicula = peliculas.getChildNodes();
         for (int i = 0; i < pelicula.getLength(); i++) {
