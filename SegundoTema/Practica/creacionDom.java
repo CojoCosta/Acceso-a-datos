@@ -1,3 +1,4 @@
+package Practica;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -21,7 +22,7 @@ public class creacionDom {
         return doc;
     }
     public static void main(String[] args) {
-        String ruta = "archivo.xml";
+        String ruta = "Practica\\archivo.xml";
         Document doc = creaArbol(ruta);
         Node peliculas, p, hijo;
         NodeList pelicula, hijos;
