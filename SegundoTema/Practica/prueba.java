@@ -38,6 +38,7 @@ public class prueba {
             }
         }
     }
+    
     public static void main(String[] args) {
         String ruta = "Practica\\archivo.xml";
         Document doc = creaArbol(ruta);
