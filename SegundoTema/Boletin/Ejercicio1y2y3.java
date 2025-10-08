@@ -68,12 +68,11 @@ public class Ejercicio1y2y3 {
                             for (int k = 0; k < directores.getLength(); k++) {
                                 director = directores.item(k);
                                 if (director.getNodeType() == Node.ELEMENT_NODE) {
-                                    System.out.printf("%S: %s ", directores.item(k).getNodeName(),
-                                            directores.item(k).getTextContent());
+                                    System.out.printf("%S: %s ", directores.item(k).getNodeName(), directores.item(k).getTextContent());
                                 }
                             }
                         } else {
-                            System.out.printf("%S: %s ", tituloDirector.getNodeName(), tituloDirector.getTextContent());
+                            System.out.printf("%S: %s", tituloDirector.getNodeName(), tituloDirector.getTextContent());
                         }
                         System.out.println();
                     }
@@ -82,37 +81,31 @@ public class Ejercicio1y2y3 {
         }
     }
 
-    public static void peliculasConXDirectores(Document doc, int n) {
-        int cont = 0;
-        Node filmoteca, peliculaNode, tituloDirector;
-        NodeList pelicula, hijosPelicula, directores;
-        filmoteca = doc.getFirstChild();
-        pelicula = filmoteca.getChildNodes();
+    public static void contarDirectores(Document doc, int n){
+        Node filmotecaNode, peliculaNode;
+        NodeList pelicula, hijosPelicula;
+        filmotecaNode = doc.getFirstChild();
+        pelicula = filmotecaNode.getChildNodes();
+        int contadorDirectores = 0;
         for (int i = 0; i < pelicula.getLength(); i++) {
+            // contadorDirectores = 0;
             peliculaNode = pelicula.item(i);
-            if (peliculaNode.getNodeType() == Node.ELEMENT_NODE) {
-                hijosPelicula = peliculaNode.getChildNodes();
-                for (int j = 0; j < hijosPelicula.getLength(); j++) {
-                    tituloDirector = hijosPelicula.item(j);
-                    if (tituloDirector.getNodeType() == Node.ELEMENT_NODE) {
-                        if (tituloDirector.getNodeName() == "director") {
-                            directores = tituloDirector.getChildNodes();
-                            for (int k = 0; k < directores.getLength(); k++) {
-                                cont ++;
-                            }
-                        } else {
-                            if(cont == n){
-                                System.out.printf("%S: %s ", tituloDirector.getNodeName(), tituloDirector.getTextContent());
-                            }
-                        }
-                        System.out.println();
+            hijosPelicula = peliculaNode.getChildNodes();
+            for (int j = 0; j < hijosPelicula.getLength(); j++) {
+                if (hijosPelicula.item(j).getNodeType() == Node.ELEMENT_NODE) {
+                    if (contadorDirectores > n && hijosPelicula.item(j).getNodeName().equals("titulo")) {
+                        System.out.printf("%S: %s\n", hijosPelicula.item(j).getNodeName(), hijosPelicula.item(j).getTextContent());
+                        System.out.println(contadorDirectores);
                     }
+                    if (hijosPelicula.item(j).getNodeName().equals("director") ) {
+                        contadorDirectores ++;
+                    } 
                 }
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         String ruta = "Boletin\\Peliculas.xml";
         Document doc = creaArbol(ruta);
         // System.out.println("Ejercicio 2");
@@ -121,6 +114,6 @@ public class Ejercicio1y2y3 {
         // System.out.println("Ejercicio 3");
         // mostrarTodo(doc);
         System.out.println("Ejercicio 5");
-        peliculasConXDirectores(doc, 1);
+        contarDirectores(doc, 1);
     }
 }
