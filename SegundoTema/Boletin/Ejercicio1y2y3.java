@@ -105,7 +105,7 @@ public class Ejercicio1y2y3 {
                                 System.out.printf("%S: %s ", tituloDirector.getNodeName(), tituloDirector.getTextContent());
                             }
                         }
-                        System.out.println();
+                        
                     }
                 }
             }
