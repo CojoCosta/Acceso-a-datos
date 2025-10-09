@@ -106,7 +106,7 @@ public class EjercicioBoletin {
     public static void diferentesGeneros(Document doc) {
         Node filmotecaNode, peliculaNode;
         NodeList pelicula;
-        ArrayList <String> generos = new ArrayList<>();
+        ArrayList<String> generos = new ArrayList<>();
         NamedNodeMap atributos;
         filmotecaNode = doc.getFirstChild();
         pelicula = filmotecaNode.getChildNodes();
@@ -131,17 +131,43 @@ public class EjercicioBoletin {
         System.out.printf("Nº DE GENEROS DIFRENTES %d", generos.size());
     }
 
+    public static void añadirAtributo(Document doc, String titulo, String atributo) {
+        Node filmoteca;
+        NodeList pelicula, titulos;
+        Element peliculaNode;
+        NamedNodeMap atributos;
+        filmoteca = doc.getFirstChild();
+        pelicula = filmoteca.getChildNodes();
+        for (int i = 0; i < pelicula.getLength(); i++) {
+            if (pelicula.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                peliculaNode = (Element) pelicula.item(i);
+                titulos = peliculaNode.getElementsByTagName("titulo");
+                if (titulos.item(i).getTextContent() == titulo) {
+                    atributos = peliculaNode.getAttributes();
+                    for (int j = 0; j < atributos.getLength(); j++) {
+                        if (atributos.item(j).getNodeName() != atributo) {
+                            peliculaNode.setAttribute(atributo, "150 mins");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         String ruta = "Boletin\\Peliculas.xml";
         Document doc = creaArbol(ruta);
-        System.out.println("Ejercicio 2");
-        mostrarTitulos(doc);
+        // System.out.println("Ejercicio 2");
+        // mostrarTitulos(doc);
 
-        System.out.println("Ejercicio 3");
-        mostrarTodo(doc);
-        System.out.println("Ejercicio 5");
-        contarDirectores(doc, 1);
-        System.out.println("Ejercicio 6");
-        diferentesGeneros(doc);
+        // System.out.println("Ejercicio 3");
+        // mostrarTodo(doc);
+        // System.out.println("Ejercicio 5");
+        // contarDirectores(doc, 1);
+        // System.out.println("Ejercicio 6");
+        // diferentesGeneros(doc);
+        System.out.println("Ejercicio 7");
+        añadirAtributo(doc, "Dune", "duracion");
+
     }
 }
