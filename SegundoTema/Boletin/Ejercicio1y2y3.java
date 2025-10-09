@@ -1,5 +1,8 @@
 package Boletin;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -104,7 +107,7 @@ public class Ejercicio1y2y3 {
     public static void diferentesGeneros(Document doc) {
         Node filmotecaNode, peliculaNode;
         NodeList pelicula;
-
+        ArrayList <String> generos = new ArrayList<>();
         NamedNodeMap atributos;
         filmotecaNode = doc.getFirstChild();
         pelicula = filmotecaNode.getChildNodes();
@@ -115,15 +118,18 @@ public class Ejercicio1y2y3 {
                     atributos = peliculaNode.getAttributes();
                     for (int j = 0; j < atributos.getLength(); j++) {
                         if (atributos.item(j).getNodeName() == "genero") {
-                            if (atributos.item(j).getTextContent() == "" ) {
-                                System.out.printf("%S: %s\n", atributos.item(j).getNodeName(),atributos.item(j).getTextContent());
-                                
+                            if (!generos.contains(atributos.item(j).getTextContent())) {
+                                generos.add(atributos.item(j).getTextContent());
                             }
                         }
                     }
                 }
             }
         }
+        for (int i = 0; i < generos.size(); i++) {
+            System.out.println(generos.get(i));
+        }
+        System.out.printf("Nº DE GENEROS DIFRENTES %d", generos.size());
     }
 
     public static void main(String[] args) {
