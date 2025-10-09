@@ -4,6 +4,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -68,7 +69,8 @@ public class Ejercicio1y2y3 {
                             for (int k = 0; k < directores.getLength(); k++) {
                                 director = directores.item(k);
                                 if (director.getNodeType() == Node.ELEMENT_NODE) {
-                                    System.out.printf("%S: %s ", directores.item(k).getNodeName(), directores.item(k).getTextContent());
+                                    System.out.printf("%S: %s ", directores.item(k).getNodeName(),
+                                            directores.item(k).getTextContent());
                                 }
                             }
                         } else {
@@ -81,31 +83,50 @@ public class Ejercicio1y2y3 {
         }
     }
 
-    public static void contarDirectores(Document doc, int n){
-        Node filmotecaNode, peliculaNode;
-        NodeList pelicula, hijosPelicula;
+    public static void contarDirectores(Document doc, int n) {
+        Node filmotecaNode;
+        Element peliculaNode;
+        NodeList pelicula, directores, titulos;
         filmotecaNode = doc.getFirstChild();
         pelicula = filmotecaNode.getChildNodes();
-        int contadorDirectores = 0;
         for (int i = 0; i < pelicula.getLength(); i++) {
-            // contadorDirectores = 0;
-            peliculaNode = pelicula.item(i);
-            hijosPelicula = peliculaNode.getChildNodes();
-            for (int j = 0; j < hijosPelicula.getLength(); j++) {
-                if (hijosPelicula.item(j).getNodeType() == Node.ELEMENT_NODE) {
-                    if (contadorDirectores > n && hijosPelicula.item(j).getNodeName().equals("titulo")) {
-                        System.out.printf("%S: %s\n", hijosPelicula.item(j).getNodeName(), hijosPelicula.item(j).getTextContent());
-                        System.out.println(contadorDirectores);
-                    }
-                    if (hijosPelicula.item(j).getNodeName().equals("director") ) {
-                        contadorDirectores ++;
-                    } 
+            if (pelicula.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                peliculaNode = (Element) pelicula.item(i);
+                directores = peliculaNode.getElementsByTagName("director");
+                titulos = peliculaNode.getElementsByTagName("titulo");
+                if (directores.getLength() > n) {
+                    System.out.printf("%S: %s\n", titulos.item(0).getNodeName(), titulos.item(0).getTextContent());
                 }
             }
         }
     }
 
-    public static void main(String[] args){
+    public static void diferentesGeneros(Document doc) {
+        Node filmotecaNode, peliculaNode;
+        NodeList pelicula;
+
+        NamedNodeMap atributos;
+        filmotecaNode = doc.getFirstChild();
+        pelicula = filmotecaNode.getChildNodes();
+        for (int i = 0; i < pelicula.getLength(); i++) {
+            if (pelicula.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                peliculaNode = (Element) pelicula.item(i);
+                if (peliculaNode.hasAttributes()) {
+                    atributos = peliculaNode.getAttributes();
+                    for (int j = 0; j < atributos.getLength(); j++) {
+                        if (atributos.item(j).getNodeName() == "genero") {
+                            if (atributos.item(j).getTextContent() == "" ) {
+                                System.out.printf("%S: %s\n", atributos.item(j).getNodeName(),atributos.item(j).getTextContent());
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
         String ruta = "Boletin\\Peliculas.xml";
         Document doc = creaArbol(ruta);
         // System.out.println("Ejercicio 2");
@@ -113,7 +134,9 @@ public class Ejercicio1y2y3 {
 
         // System.out.println("Ejercicio 3");
         // mostrarTodo(doc);
-        System.out.println("Ejercicio 5");
-        contarDirectores(doc, 1);
+        // System.out.println("Ejercicio 5");
+        // contarDirectores(doc, 1);
+        System.out.println("Ejercicio 6");
+        diferentesGeneros(doc);
     }
 }
