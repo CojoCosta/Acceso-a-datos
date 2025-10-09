@@ -1,6 +1,5 @@
 package Boletin;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -12,7 +11,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Ejercicio1y2y3 {
+public class EjercicioBoletin {
     public static Document creaArbol(String ruta) {
         Document doc = null;
         try {
@@ -135,13 +134,13 @@ public class Ejercicio1y2y3 {
     public static void main(String[] args) {
         String ruta = "Boletin\\Peliculas.xml";
         Document doc = creaArbol(ruta);
-        // System.out.println("Ejercicio 2");
-        // mostrarTitulos(doc);
+        System.out.println("Ejercicio 2");
+        mostrarTitulos(doc);
 
-        // System.out.println("Ejercicio 3");
-        // mostrarTodo(doc);
-        // System.out.println("Ejercicio 5");
-        // contarDirectores(doc, 1);
+        System.out.println("Ejercicio 3");
+        mostrarTodo(doc);
+        System.out.println("Ejercicio 5");
+        contarDirectores(doc, 1);
         System.out.println("Ejercicio 6");
         diferentesGeneros(doc);
     }
