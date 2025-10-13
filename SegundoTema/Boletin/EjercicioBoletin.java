@@ -225,7 +225,14 @@ public class EjercicioBoletin {
     }
 
     public static void añadirAlfredo(Document doc, String titulo){
-        
+        NodeList peliculas = doc.getElementsByTagName("pelicula");
+        for (int i = 0; i < peliculas.getLength(); i++) {
+            Node pelicula = peliculas.item(i).getFirstChild().getNextSibling();
+            if (pelicula.getFirstChild().getNodeType() != Node.ELEMENT_NODE && pelicula.getTextContent().equals(titulo)) {
+                System.out.println(pelicula.getTextContent());
+                
+            }
+        }
     }
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, FileNotFoundException {
         String ruta = "Boletin\\Peliculas.xml";
@@ -248,6 +255,6 @@ public class EjercicioBoletin {
         // System.out.println("Ejercicio 9");
         // modificarDirector(doc, "Lana", "Larry", "Wachowski");
         // grabarDOM(doc, ruta);
-
+        añadirAlfredo(doc, "Dune");
     }
 }
