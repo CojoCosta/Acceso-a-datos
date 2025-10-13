@@ -224,13 +224,20 @@ public class EjercicioBoletin {
         }
     }
 
-    public static void añadirAlfredo(Document doc, String titulo){
+    public static void añadirAlfredo(Document doc, String tituloPelicula){
         NodeList peliculas = doc.getElementsByTagName("pelicula");
+        NodeList directores = doc.getElementsByTagName("director");
         for (int i = 0; i < peliculas.getLength(); i++) {
-            Node pelicula = peliculas.item(i).getFirstChild().getNextSibling();
-            if (pelicula.getFirstChild().getNodeType() != Node.ELEMENT_NODE && pelicula.getTextContent().equals(titulo)) {
-                System.out.println(pelicula.getTextContent());
-                
+            Node titulo = peliculas.item(i).getFirstChild().getNextSibling();
+            if (titulo.getFirstChild().getNodeType() != Node.ELEMENT_NODE && titulo.getTextContent().equals(tituloPelicula)) {
+                System.out.println(titulo.getTextContent());
+                Element pelicula = (Element) titulo.getParentNode();
+                Element nuevoDirector = doc.createElement("director");
+                pelicula.appendChild(nuevoDirector);
+                pelicula.appendChild(doc.createTextNode("\n"));
+                Element nombreDirector = doc.createElement("nombre");
+                nombreDirector.appendChild(doc.createTextNode("Alfredo"));
+
             }
         }
     }
