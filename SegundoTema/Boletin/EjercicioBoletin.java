@@ -1,9 +1,11 @@
 package Boletin;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+import javax.sql.rowset.spi.XmlWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -160,6 +162,7 @@ public class EjercicioBoletin {
             }
         }
     }
+
     public static void grabarDOM(Document document, String ficheroSalida)
             throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, FileNotFoundException {
@@ -182,9 +185,10 @@ public class EjercicioBoletin {
         // String xmlCad=serializer.writeToString(document);
     }
 
-    public static void añadirPelicula(Document doc, String titulo, String nombreAutor, String apellidoAutor,String año, String genero, String idioma){
+    public static void añadirPelicula(Document doc, String titulo, String nombreAutor, String apellidoAutor, String año,
+            String genero, String idioma) {
         Element nodoPelicula = doc.createElement("pelicula");
-        nodoPelicula.setAttribute("año",año);
+        nodoPelicula.setAttribute("año", año);
         nodoPelicula.setAttribute("genero", genero);
         nodoPelicula.setAttribute("idioma", idioma);
         nodoPelicula.appendChild(doc.createTextNode("\n"));
@@ -193,7 +197,7 @@ public class EjercicioBoletin {
         nodoTitulo.appendChild(doc.createTextNode(titulo));
         nodoPelicula.appendChild(nodoTitulo);
         nodoTitulo.appendChild(doc.createTextNode("\n"));
-        
+
         Element nodoDirector = doc.createElement("director");
         Node nombre = nodoDirector.appendChild(doc.createElement("nombre"));
         nombre.appendChild(doc.createTextNode(nombreAutor));
@@ -201,12 +205,13 @@ public class EjercicioBoletin {
         apellido.appendChild(doc.createTextNode(apellidoAutor));
         nodoPelicula.appendChild(nodoDirector);
         nodoDirector.appendChild(doc.createTextNode("\n"));
-        
+
         Node raiz = doc.getFirstChild();
         raiz.appendChild(nodoPelicula);
         raiz.appendChild(doc.createTextNode("\n"));
     }
-    public static void modificarDirector(Document doc, String nombreNuevo, String nombreViejo, String ape){
+
+    public static void modificarDirector(Document doc, String nombreNuevo, String nombreViejo, String ape) {
         NodeList directores = doc.getElementsByTagName("director");
         for (int i = 0; i < directores.getLength(); i++) {
             Node director = directores.item(i);
@@ -224,44 +229,91 @@ public class EjercicioBoletin {
         }
     }
 
-    public static void añadirAlfredo(Document doc, String tituloPelicula){
+    public static void añadirAlfredo(Document doc, String tituloPelicula, String nombreDir, String ApellidoDir) {
         NodeList peliculas = doc.getElementsByTagName("pelicula");
-        NodeList directores = doc.getElementsByTagName("director");
         for (int i = 0; i < peliculas.getLength(); i++) {
             Node titulo = peliculas.item(i).getFirstChild().getNextSibling();
-            if (titulo.getFirstChild().getNodeType() != Node.ELEMENT_NODE && titulo.getTextContent().equals(tituloPelicula)) {
-                System.out.println(titulo.getTextContent());
+            if (titulo.getFirstChild().getNodeType() != Node.ELEMENT_NODE
+                    && titulo.getTextContent().equals(tituloPelicula)) {
+                System.err.println(titulo.getTextContent());
                 Element pelicula = (Element) titulo.getParentNode();
+
                 Element nuevoDirector = doc.createElement("director");
+                Node nombreDirector = nuevoDirector.appendChild(doc.createElement("nombre"));
+                nombreDirector.appendChild(doc.createTextNode(nombreDir));
+                Node apellidoDirector = nuevoDirector.appendChild(doc.createElement("apellido"));
+                apellidoDirector.appendChild(doc.createTextNode(ApellidoDir));
                 pelicula.appendChild(nuevoDirector);
                 pelicula.appendChild(doc.createTextNode("\n"));
-                Element nombreDirector = doc.createElement("nombre");
-                nombreDirector.appendChild(doc.createTextNode("Alfredo"));
-
             }
         }
     }
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, FileNotFoundException {
+
+    public static void eliminarPelicula(Document doc, String titPeli) {
+        NodeList peliculas = doc.getElementsByTagName("pelicula");
+        for (int i = 0; i < peliculas.getLength(); i++) {
+            Node titulo = peliculas.item(i).getFirstChild().getNextSibling();
+            if (titulo.getFirstChild().getNodeType() != Node.ELEMENT_NODE && titulo.getTextContent().equals(titPeli)) {
+                System.err.println(titulo.getTextContent());
+                NodeList filmoteca = doc.getElementsByTagName("filmoteca");
+                for (int j = 0; j < filmoteca.getLength(); j++) {
+                    filmoteca.item(j).removeChild(peliculas.item(i));
+                }
+            }
+        }
+    }
+
+    public static void crearNuevoXML(Document doc, String atributoId, String nombre, String apellidos, String apodo, String salario) {
+        Element compañia = doc.createElement("compañia");
+        compañia.appendChild(doc.createTextNode("\n"));
+        
+        Element empleado = doc.createElement("empleado");
+        empleado.setAttribute("id", atributoId);
+        compañia.appendChild(empleado);
+        empleado.appendChild(doc.createTextNode("\n"));
+
+    }
+
+    public static void main(String[] args)
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, FileNotFoundException {
         String ruta = "Boletin\\Peliculas.xml";
+        String ruta2 = "Boletin\\Compañia.xml";
         Document doc = creaArbol(ruta);
+        Document doc2 = creaArbol(ruta2);
         // System.out.println("Ejercicio 2");
         // mostrarTitulos(doc);
 
         // System.out.println("Ejercicio 3");
         // mostrarTodo(doc);
+
         // System.out.println("Ejercicio 5");
         // contarDirectores(doc, 1);
+
         // System.out.println("Ejercicio 6");
         // diferentesGeneros(doc);
+
         // System.out.println("Ejercicio 7");
         // añadirAtributo(doc, "Dune", "Contenido");
         // eliminarAtributo(doc, "Dune", "version");
+
         // System.out.println("Ejercicio 8");
         // añadirPelicula(doc, "Depredador", "John", "Tiernan", "1987", "acción", "vo");
         // grabarDOM(doc, ruta);
+
         // System.out.println("Ejercicio 9");
         // modificarDirector(doc, "Lana", "Larry", "Wachowski");
         // grabarDOM(doc, ruta);
-        añadirAlfredo(doc, "Dune");
+
+        // System.out.println("Ejercicio 10");
+        // añadirAlfredo(doc, "Dune","Alfredo", "Landa");
+        // grabarDOM(doc, ruta);
+
+        // System.out.println("Ejercicio 11");
+        // eliminarPelicula(doc, "Dune");
+        // grabarDOM(doc, ruta);
+
+        System.out.println("Ejercicio 12");
+        crearNuevoXML(doc2, "1", "Juan", "López Pérez", "Juanín", "1000");
+        grabarDOM(doc2, ruta2);
     }
 }
