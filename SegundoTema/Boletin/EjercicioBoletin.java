@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.sql.rowset.spi.XmlWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -263,57 +264,79 @@ public class EjercicioBoletin {
         }
     }
 
-    public static void crearNuevoXML(Document doc, String atributoId, String nombre, String apellidos, String apodo, String salario) {
+    public static void crearNuevoXML(Document doc, String atributoId, String nom, String ape, String apo, String sal) {
         Element compañia = doc.createElement("compañia");
-        compañia.appendChild(doc.createTextNode("\n"));
+        doc.appendChild(compañia);
         
         Element empleado = doc.createElement("empleado");
         empleado.setAttribute("id", atributoId);
         compañia.appendChild(empleado);
         empleado.appendChild(doc.createTextNode("\n"));
 
+        Element nombre = doc.createElement("nombre");
+        empleado.appendChild(nombre);
+        nombre.appendChild(doc.createTextNode(nom));
+
+        Element apellidos = doc.createElement("apellidos");
+        empleado.appendChild(apellidos);
+        apellidos.appendChild(doc.createTextNode(ape));
+
+        Element apodo = doc.createElement("apodo");
+        empleado.appendChild(apodo);
+        apodo.appendChild(doc.createTextNode(apo));
+
+        Element salario = doc.createElement("salario");
+        empleado.appendChild(salario);
+        salario.appendChild(doc.createTextNode(sal));
+
     }
 
     public static void main(String[] args)
-            throws ClassNotFoundException, InstantiationException, IllegalAccessException, FileNotFoundException {
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, FileNotFoundException, ParserConfigurationException {
         String ruta = "Boletin\\Peliculas.xml";
-        String ruta2 = "Boletin\\Compañia.xml";
         Document doc = creaArbol(ruta);
-        Document doc2 = creaArbol(ruta2);
         // System.out.println("Ejercicio 2");
         // mostrarTitulos(doc);
-
+        
         // System.out.println("Ejercicio 3");
         // mostrarTodo(doc);
 
         // System.out.println("Ejercicio 5");
         // contarDirectores(doc, 1);
-
+        
         // System.out.println("Ejercicio 6");
         // diferentesGeneros(doc);
-
+        
         // System.out.println("Ejercicio 7");
-        // añadirAtributo(doc, "Dune", "Contenido");
-        // eliminarAtributo(doc, "Dune", "version");
-
+        // añadirAtributo(doc, "Alien", "Contenido");
+        // //eliminarAtributo(doc, "Dune", "version");
+        
         // System.out.println("Ejercicio 8");
         // añadirPelicula(doc, "Depredador", "John", "Tiernan", "1987", "acción", "vo");
         // grabarDOM(doc, ruta);
-
+        
         // System.out.println("Ejercicio 9");
         // modificarDirector(doc, "Lana", "Larry", "Wachowski");
         // grabarDOM(doc, ruta);
-
+        
         // System.out.println("Ejercicio 10");
         // añadirAlfredo(doc, "Dune","Alfredo", "Landa");
         // grabarDOM(doc, ruta);
-
+        
         // System.out.println("Ejercicio 11");
         // eliminarPelicula(doc, "Dune");
-        // grabarDOM(doc, ruta);
-
-        System.out.println("Ejercicio 12");
-        crearNuevoXML(doc2, "1", "Juan", "López Pérez", "Juanín", "1000");
-        grabarDOM(doc2, ruta2);
+    //     grabarDOM(doc, ruta);
+        
+    //     String ruta2 = "Boletin\\Compañia.xml";
+    //     Document doc2 = creaArbol(ruta2);
+    //     if (doc2 == null) {
+    //         DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
+    //         factoria.setIgnoringComments(true);
+    //         DocumentBuilder builder = factoria.newDocumentBuilder();
+    //         doc2 = builder.newDocument();
+    //     }
+    //     System.out.println("Ejercicio 12");
+    //     crearNuevoXML(doc2, "1", "Juan", "López Pérez", "Juanín", "1000");
+    //     grabarDOM(doc2, ruta2);
     }
 }
