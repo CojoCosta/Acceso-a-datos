@@ -325,18 +325,18 @@ public class EjercicioBoletin {
         
         // System.out.println("Ejercicio 11");
         // eliminarPelicula(doc, "Dune");
-    //     grabarDOM(doc, ruta);
+        // grabarDOM(doc, ruta);
         
-    //     String ruta2 = "Boletin\\Compañia.xml";
-    //     Document doc2 = creaArbol(ruta2);
-    //     if (doc2 == null) {
-    //         DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
-    //         factoria.setIgnoringComments(true);
-    //         DocumentBuilder builder = factoria.newDocumentBuilder();
-    //         doc2 = builder.newDocument();
-    //     }
-    //     System.out.println("Ejercicio 12");
-    //     crearNuevoXML(doc2, "1", "Juan", "López Pérez", "Juanín", "1000");
-    //     grabarDOM(doc2, ruta2);
+        // String ruta2 = "Boletin\\Compañia.xml";
+        // Document doc2 = creaArbol(ruta2);
+        // if (doc2 == null) {
+        //     DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
+        //     factoria.setIgnoringComments(true);
+        //     DocumentBuilder builder = factoria.newDocumentBuilder();
+        //     doc2 = builder.newDocument();
+        // }
+        // System.out.println("Ejercicio 12");
+        // crearNuevoXML(doc2, "1", "Juan", "López Pérez", "Juanín", "1000");
+        // grabarDOM(doc2, ruta2);
     }
 }
