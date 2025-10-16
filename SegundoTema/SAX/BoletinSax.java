@@ -7,7 +7,6 @@ import org.xml.sax.helpers.DefaultHandler;
 public class BoletinSax extends DefaultHandler {
     String titulo = "";
     boolean flag = false;
-
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
@@ -35,7 +34,13 @@ public class BoletinSax extends DefaultHandler {
             flag = true;
             System.out.printf("\t\t<%s> ", qName);
         } else if (qName.equals("director")) {
-            System.out.printf("\t\t<%s>\n", qName);
+            System.out.printf("\t<%s>\n", qName);
+        } else if (qName.equals("nombre")){
+            flag = true;
+            System.out.printf("\t\t\t<%s> ", qName);
+        }else if (qName.equals("apellido")){
+            flag = true;
+            System.out.printf("\t\t\t<%s> ", qName);
         }
     }
     
@@ -51,6 +56,10 @@ public class BoletinSax extends DefaultHandler {
             System.out.printf(" </%s>", qName);
         } else if (qName.equals("director")) {
             System.out.printf("\t\t</%s>\n", qName);
+        } else if (qName.equals("nombre")){
+            System.out.printf(" </%s>\n", qName);
+        } else if (qName.equals("apellido")){
+            System.out.printf(" </%s>\n", qName);
         }
     }
 
