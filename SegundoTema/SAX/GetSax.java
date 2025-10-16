@@ -12,11 +12,13 @@ public class GetSax {
     public static void getSax(String entradaXML) throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
-        Ejemplo1 parserSax = new Ejemplo1();
-        parser.parse(entradaXML, parserSax);
+        // Ejemplo1 parserSax = new Ejemplo1();
+        BoletinSax bolSax = new BoletinSax();
+        parser.parse(entradaXML, bolSax);
+        // parser.parse(entradaXML, parserSax);
     }
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-        getSax("SAX\\archivo.xml");
+        getSax("SAX\\peliculas.xml");
         
     }
 }
