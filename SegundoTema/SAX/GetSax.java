@@ -13,9 +13,11 @@ public class GetSax {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
         // Ejemplo1 parserSax = new Ejemplo1();
-        BoletinSax bolSax = new BoletinSax();
-        parser.parse(entradaXML, bolSax);
         // parser.parse(entradaXML, parserSax);
+        // BoletinSax bolSax = new BoletinSax();
+        // parser.parse(entradaXML, bolSax);
+        BoletinSax2 bolSax2 = new BoletinSax2();
+        parser.parse(entradaXML, bolSax2);
     }
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
         getSax("SAX\\peliculas.xml");
