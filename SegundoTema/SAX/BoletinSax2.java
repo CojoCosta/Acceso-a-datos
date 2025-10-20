@@ -1,6 +1,8 @@
 
 package SAX;
 
+import java.nio.channels.Pipe.SourceChannel;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -22,6 +24,7 @@ public class BoletinSax2 extends DefaultHandler {
     @Override
     public void startDocument() throws SAXException {
         super.startDocument();
+        System.out.println("EJERCICIO 14");
         System.out.println("Empiezo a leer");
     }
 
