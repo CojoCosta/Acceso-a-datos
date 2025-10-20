@@ -12,17 +12,18 @@ public class GetSax {
     public static void getSax(String entradaXML) throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
+        int numero;
         // Ejemplo1 parserSax = new Ejemplo1();
         // parser.parse(entradaXML, parserSax);
-//--------------------------- BOLETIN ------------------------------------//
         // BoletinSax bolSax = new BoletinSax();
         // parser.parse(entradaXML, bolSax);
-
+//--------------------------- BOLETIN ------------------------------------//
+        
         // BoletinSax2 bolSax2 = new BoletinSax2();
         // parser.parse(entradaXML, bolSax2);
         
-        BoletinSax3 bolSax3 = new BoletinSax3();
-        parser.parse(entradaXML, bolSax3);
+        // BoletinSax3 bolSax3 = new BoletinSax3();
+        // parser.parse(entradaXML, bolSax3);
         
         BoletinSax4 bolSax4 = new BoletinSax4();
         parser.parse(entradaXML, bolSax4);
