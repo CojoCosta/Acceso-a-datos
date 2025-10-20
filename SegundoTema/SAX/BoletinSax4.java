@@ -6,7 +6,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class BoletinSax4 extends DefaultHandler {
     String contenido = "";
+    String titulo ="";
     boolean flag = false;
+    boolean flag2 = false;
     int numero = 1;
     int cont = 0;
 
@@ -15,8 +17,12 @@ public class BoletinSax4 extends DefaultHandler {
         super.characters(ch, start, length);
         contenido = new String(ch, start, length);
         if (flag) {
-            System.out.printf("%s tu vieja",contenido);
+            titulo = contenido;
             flag = false;
+        }
+        if(flag2){
+            System.out.println(titulo);
+            flag2 = false;
         }
     }
 
@@ -29,11 +35,14 @@ public class BoletinSax4 extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
+        if (qName.equals("titulo")) {
+            flag = true;
+        }
         if (qName.equals("director")) {
             cont++;
             if (cont > numero) {
-                flag = true;
-                System.out.printf("%s: ", qName);
+                flag2 = true;
+                System.out.print("Titulo: ");
             }
         }
     }
@@ -41,7 +50,7 @@ public class BoletinSax4 extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
-        if(qName.equals("pelicula")){
+        if (qName.equals("pelicula")) {
             cont = 0;
         }
     }
