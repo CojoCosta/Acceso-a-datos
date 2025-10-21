@@ -1,47 +1,43 @@
 package SAX;
 
-import java.util.ArrayList;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class BoletinSax5 extends DefaultHandler {
-    // int cont = 0;
-    ArrayList <String> generos = new ArrayList<>() ; 
-    
+public class BoletinSaxBien extends DefaultHandler {
+    String titulo = "";
+    boolean flag = false;
+
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
-
+        titulo = new String(ch, start, length);
+        System.out.print(titulo);
     }
 
     @Override
     public void startDocument() throws SAXException {
         super.startDocument();
-        System.out.println("EJERCICIO 16");
+        System.out.println("EJERCICIO 14");
+        System.out.println("Empiezo a leer");
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        for (int i = 0; i < attributes.getLength(); i++) {
-            if (attributes.getLocalName(i).equals("genero")) {
-                if (!generos.contains(attributes.getValue(i))) {
-                    generos.add(attributes.getValue(i));
-                }
-            }
-        }
+        System.out.printf("<%s>", qName);
     }
-    
+
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
+            System.out.printf("</%s>", qName);
     }
-    
+
     @Override
     public void endDocument() throws SAXException {
         super.endDocument();
-        System.out.printf("Nº de generos: %d",generos.size());
+        System.out.println("..............................");
     }
+
 }

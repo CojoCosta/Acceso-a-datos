@@ -17,19 +17,22 @@ public class GetSax {
         // parser.parse(entradaXML, parserSax);
         // BoletinSax bolSax = new BoletinSax();
         // parser.parse(entradaXML, bolSax);
+        
+        // BoletinSaxBien bolsaxB = new BoletinSaxBien();
+        // parser.parse(entradaXML, bolsaxB);
 //--------------------------- BOLETIN ------------------------------------//
         
         // BoletinSax2 bolSax2 = new BoletinSax2();
         // parser.parse(entradaXML, bolSax2);
         
-        // BoletinSax3 bolSax3 = new BoletinSax3();
-        // parser.parse(entradaXML, bolSax3);
+        BoletinSax3 bolSax3 = new BoletinSax3();
+        parser.parse(entradaXML, bolSax3);
         
         // BoletinSax4 bolSax4 = new BoletinSax4();
         // parser.parse(entradaXML, bolSax4);
 
-        BoletinSax5 bolSax5 = new BoletinSax5();
-        parser.parse(entradaXML, bolSax5);
+        // BoletinSax5 bolSax5 = new BoletinSax5();
+        // parser.parse(entradaXML, bolSax5);
     }
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
         getSax("SAX\\peliculas.xml");
