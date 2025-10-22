@@ -1,4 +1,3 @@
-
 package json;
 
 public class Application {
