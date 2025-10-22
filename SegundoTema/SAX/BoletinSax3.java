@@ -27,16 +27,16 @@ public class BoletinSax3 extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        if (qName.equals("pelicula")) {
+        if (qName.equals("titulo")) {
+            flag = true;
+            System.out.printf("%s: ", qName);
+        } else if (qName.equals("pelicula")) {
             System.out.println("\nPelicula:");
             for (int i = 0; i < attributes.getLength(); i++) {
                 if (attributes.getLocalName(i).equals("genero")) {
                     System.out.printf("%s: %s\n", attributes.getLocalName(i), attributes.getValue(i));
                 }
             }
-        } else if (qName.equals("titulo")) {
-            flag = true;
-            System.out.printf("%s: ", qName);
         } else if (qName.equals("nombre")) {
             flag = true;
             System.out.printf("%s: ", qName);
