@@ -79,24 +79,62 @@ public class Application {
       // writer.writeArray((JsonArray)json);
     } else
       System.out.println("No se soporta la escritura");
-      writer.close();
+    writer.close();
   }
-  public static void navegarPelis(){
-    JsonValue jv = leeJSON("src\\main\\java\\Resources\\pelis.json");
-    System.out.println(jv);
-    JsonArray ja = jv.asJsonArray();
+
+  public static void navegarPelis() {
+    // JsonValue jv = leeJSON("src\\main\\java\\Resources\\pelis.json");
+    // System.out.println(jv);
+    // JsonArray ja = jv.asJsonArray();
+
+    JsonArray ja = creaArray();
     for (JsonValue peli : ja) {
       JsonObject p = peli.asJsonObject();
-      System.out.printf("+ Titulo: %s \n- Año: %d\n",p.getString("titulo"), p.getInt("año"));
+      System.out.printf("+ Titulo: %s \n- Año: %d\n", p.getString("titulo"), p.getInt("año"));
       JsonArray interpretes = p.getJsonArray("interpretes");
       System.out.println("Interpretes");
       for (JsonValue interprete : interpretes) {
         JsonObject inter = interprete.asJsonObject();
-        System.out.printf("+ Nombre: %s \n",inter.getString("nombre"));
+        System.out.printf("+ Nombre: %s \n", inter.getString("nombre"));
         System.out.printf("Año: %d \nMes: %d\n", inter.getJsonObject("fechaNacimiento").getInt("año"), inter.getJsonObject("fechaNacimiento").getInt("mes"));
       }
-
     }
+  }
+
+  public static JsonArray creaArray() {
+    JsonArray array = (JsonArray) Json.createArrayBuilder()
+        .add(Json.createObjectBuilder()
+            .add("titulo", "El atlas de las nubes")
+            .add("año", 2012)
+            .add("directores", "Lana Wachowski, Tom Tykwer, Lilly Wachowski")
+            .add("interpretes", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("nombre", "Tom Hanks")
+                    .add("fechaNacimiento", Json.createObjectBuilder()
+                        .add("año", 1956)
+                        .add("mes", 8)))
+                .add(Json.createObjectBuilder()
+                    .add("nombre", "Halle Berry")
+                    .add("fechaNacimiento", Json.createObjectBuilder()
+                        .add("año", 1966)
+                        .add("mes", 7)))))
+        .add(Json.createObjectBuilder()
+            .add("titulo", "La red social")
+            .add("año", 2010)
+            .add("directores", "David Fincher")
+            .add("interpretes", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("nombre", "Jesse Eisenberg")
+                    .add("fechaNacimiento", Json.createObjectBuilder()
+                        .add("año", 1983)
+                        .add("mes", 9)))
+                .add(Json.createObjectBuilder()
+                    .add("nombre", "Andrew Garfield")
+                    .add("fechaNacimiento", Json.createObjectBuilder()
+                        .add("año", 1983)
+                        .add("mes", 7)))))
+        .build();
+    return array;
   }
 
   public static void main(String[] args) throws FileNotFoundException {
