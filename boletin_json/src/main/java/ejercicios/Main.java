@@ -7,13 +7,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
 import javax.net.ssl.HttpsURLConnection;
+
+import netscape.javascript.JSObject;
 
 public class Main {
   public static JsonValue leeJSON(String ruta) {
@@ -112,6 +118,33 @@ public class Main {
     return coordenadas;
   }
 
+  public static String unixTimeToString(long unixTime) {
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    return Instant.ofEpochSecond(unixTime).atZone(ZoneId.of("GMT+1")).format(formatter);
+  }
+
+  public static String ejercicio7(JsonObject jo) {
+    //Fecha
+    long fecha = jo.getInt("dt");
+    //Tª
+    JsonObject main = jo.getJsonObject("main");
+    double temp = main.getJsonNumber("temp").doubleValue();
+    //Humdedad
+    int humedad = main.getInt("humidity");
+    //PROBABILIDAD CIELO NUBES
+    JsonObject nubes = jo.getJsonObject("clouds");
+    int prob_nubes = nubes.getInt("all");
+    //VELOCIDAD DEL VIENTO
+    JsonObject viento = jo.getJsonObject("wind");
+    double velocidad = viento.getJsonNumber("speed").doubleValue();
+    //PRONOSTICO
+    JsonArray tiempo = jo.getJsonArray("weather");
+    JsonObject pronostico = tiempo.getJsonObject(0);
+    String pronosticoTiempo = pronostico.getString("description");
+
+    return String.format("Fecha: %s\nTª: %f\nHumedad: %d\nPro. cielo nubes: %d\nVel. viento: %f\npronostico: %s", unixTimeToString(fecha), temp, humedad, prob_nubes, velocidad, pronosticoTiempo);
+  }
+
   public static void main(String[] args) throws FileNotFoundException {
     JsonValue j1, j2, j3;
 
@@ -119,15 +152,13 @@ public class Main {
     j1 = ejercicio1();
     System.out.println(j1);
 
-    // System.out.println("--------------------Ejercicio
-    // 2--------------------------");
-    // j2 = ejercicio2(42.232819, -8.72264);
-    // System.out.println(j2);
+    System.out.println("--------------------Ejercicio 2--------------------------");
+    j2 = ejercicio2(42.232819, -8.72264);
+    System.out.println(j2);
 
-    // System.out.println("--------------------Ejercicio
-    // 3--------------------------");
-    // j3 = ejercicio3(42.232819, -8.72264, 1);
-    // System.out.println(j3);
+    System.out.println("--------------------Ejercicio 3--------------------------");
+    j3 = ejercicio3(42.232819, -8.72264, 1);
+    System.out.println(j3);
 
     JsonObject jo1 = j1.asJsonObject();
     System.out.println("--------------------Ejercicio 4--------------------------");
@@ -143,7 +174,9 @@ public class Main {
     System.out.printf("Coordenadas lon: %f, lat %f\n", lon, lat);
 
     System.out.println("--------------------Ejercicio 7--------------------------");
+    System.out.println(ejercicio7(jo1));
+    
+    System.out.println("--------------------Ejercicio 8--------------------------");
     
   }
-
 }
