@@ -18,6 +18,7 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
 import javax.net.ssl.HttpsURLConnection;
+import javax.print.DocFlavor.SERVICE_FORMATTED;
 
 public class BoletinJson {
   public static JsonValue leeJSON(String ruta) {
@@ -79,22 +80,27 @@ public class BoletinJson {
 
   public static JsonValue ejercicio1() {
     String ciudad = "ourense";
-    return leeJSON("https://api.openweathermap.org/data/2.5/weather?q=" + ciudad + ",es&lang=es&+units=metric&APPID=8f8dccaf02657071004202f05c1fdce0");
+    return leeJSON("https://api.openweathermap.org/data/2.5/weather?q=" + ciudad
+        + ",es&lang=es&+units=metric&APPID=8f8dccaf02657071004202f05c1fdce0");
   }
 
   public static JsonValue ejercicio2(double lat, double lon) {
-    return leeJSON("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon+ "&APPID=8f8dccaf02657071004202f05c1fdce0");
+    return leeJSON("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon
+        + "&APPID=8f8dccaf02657071004202f05c1fdce0");
   }
 
   public static JsonValue ejercicio3(double lat, double lon, int x) {
-    return leeJSON("http://api.openweathermap.org/data/2.5/find?lat=" + lat + "&lon=" + lon + "&cnt=" + x + "&APPID=a975f935caf274ab016f4308ffa23453");
+    return leeJSON("http://api.openweathermap.org/data/2.5/find?lat=" + lat + "&lon=" + lon + "&cnt=" + x
+        + "&APPID=a975f935caf274ab016f4308ffa23453");
   }
 
   public static JsonValue ejercicio9JsonValue() {
     return leeJSON("https://opentdb.com/api.php?amount=20&category=9&difficulty=hard&type=multiple");
   }
+
   public static JsonValue ejercicio10JsonValue(String pais) {
-    return leeJSON("https://app.ticketmaster.com/discovery/v2/events.json?countryCode="+pais+"&apikey=AMXR5Rf8zlr7oGucsebGKvDCLOQmGUGE");
+    return leeJSON("https://app.ticketmaster.com/discovery/v2/events.json?countryCode=" + pais
+        + "&apikey=AMXR5Rf8zlr7oGucsebGKvDCLOQmGUGE");
   }
 
   public static int ejercicio4Id(JsonObject jo) {
@@ -172,73 +178,104 @@ public class BoletinJson {
     }
   }
 
-  public static void ejercicio9(JsonObject jo){
+  public static void ejercicio9(JsonObject jo) {
     JsonArray results = jo.getJsonArray("results");
     for (int i = 0; i < results.size(); i++) {
       JsonObject resultObject = results.getJsonObject(i);
-      //PREGUNTA
+      // PREGUNTA
       String pregunta = resultObject.getString("question");
-      //RESPUEST CORRECTA
+      // RESPUEST CORRECTA
       String respuestaCorrecta = resultObject.getString("correct_answer");
-      //RESPUESTAS INCORRECTAS
+      // RESPUESTAS INCORRECTAS
       JsonArray respuestasMalas = resultObject.getJsonArray("incorrect_answers");
       String respuestaIncorrecta1 = respuestasMalas.getString(0);
       String respuestaIncorrecta2 = respuestasMalas.getString(1);
       String respuestaIncorrecta3 = respuestasMalas.getString(2);
-      System.out.printf("Pregunta: %s\n%s*\n%s\n%s\n%s\n\n",pregunta, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3);
+      System.out.printf("Pregunta: %s\n%s*\n%s\n%s\n%s\n\n", pregunta, respuestaCorrecta, respuestaIncorrecta1,
+          respuestaIncorrecta2, respuestaIncorrecta3);
     }
   }
 
-  public static void ejercicio10(JsonObject jo){
-    JsonArray events = jo.getJsonArray("events");
+  public static void ejercicio10(JsonObject jo) {
+    JsonObject embe = jo.getJsonObject("_embedded");
+    JsonArray events = embe.getJsonArray("events");
+
     for (int i = 0; i < events.size(); i++) {
       JsonObject evento = events.getJsonObject(i);
       String nombre = evento.getString("name");
-      System.out.printf("Evento %d: %s",i ,nombre);
+      System.out.printf("Evento %d: %s\n", i, nombre);
     }
   }
+
+  public static void ejercicio11(JsonObject jo) {
+    JsonObject embe = jo.getJsonObject("_embedded");
+    JsonArray events = embe.getJsonArray("events");
+
+    for (int i = 0; i < events.size(); i++) {
+      JsonObject event = events.getJsonObject(i);
+      JsonObject embe2 = event.getJsonObject("_embedded");
+      JsonArray venues = embe2.getJsonArray("venues");
+
+      for (int j = 0; j < venues.size(); j++) {
+        JsonObject lugar = venues.getJsonObject(j);
+        String sitio = lugar.getString("name");
+        String codPostal = lugar.getString("postalCode");
+        JsonObject ciudadJsonObject = lugar.getJsonObject("city");
+        String ciudad = ciudadJsonObject.getString("name");
+        JsonObject paisJsonObject = lugar.getJsonObject("country");
+        String pais = paisJsonObject.getString("name");
+        JsonObject direccionJsonObject = lugar.getJsonObject("address");
+        String direccion = direccionJsonObject.getString("line1");
+        System.out.printf("Lugar: %s \nCodigo Postal: %s \nCiudad: %s \nPaís: %s \nDirección: %s\n\n", sitio, codPostal, ciudad, pais, direccion);
+      }
+    }
+  }
+
   public static void main(String[] args) throws FileNotFoundException {
-    JsonValue j1, j2, j3;
+    // JsonValue j1, j2, j3;
 
-    System.out.println("--------------------Ejercicio 1--------------------------");
-    j1 = ejercicio1();
-    System.out.println(j1);
+    // System.out.println("--------------------Ejercicio 1--------------------------");
+    // j1 = ejercicio1();
+    // System.out.println(j1);
 
-    System.out.println("--------------------Ejercicio 2--------------------------");
-    j2 = ejercicio2(42.232819, -8.72264);
-    System.out.println(j2);
+    // System.out.println("--------------------Ejercicio 2--------------------------");
+    // j2 = ejercicio2(42.232819, -8.72264);
+    // System.out.println(j2);
 
-    System.out.println("--------------------Ejercicio 3--------------------------");
-    j3 = ejercicio3(42.232819, -8.72264, 5);
-    System.out.println(j3);
+    // System.out.println("--------------------Ejercicio 3--------------------------");
+    // j3 = ejercicio3(42.232819, -8.72264, 5);
+    // System.out.println(j3);
 
-    JsonObject jo1 = j1.asJsonObject();
-    System.out.println("--------------------Ejercicio 4--------------------------");
-    System.out.printf("Id es: %d\n", ejercicio4Id(jo1));
+    // JsonObject jo1 = j1.asJsonObject();
+    // System.out.println("--------------------Ejercicio 4--------------------------");
+    // System.out.printf("Id es: %d\n", ejercicio4Id(jo1));
 
-    System.out.println("--------------------Ejercicio 5--------------------------");
-    System.out.printf("Id es: %s\n", ejercicio5Nombre(jo1));
+    // System.out.println("--------------------Ejercicio 5--------------------------");
+    // System.out.printf("Id es: %s\n", ejercicio5Nombre(jo1));
 
-    System.out.println("--------------------Ejercicio 6--------------------------");
-    ejercicio6Coordenadas(jo1);
-    double lon = ejercicio6Coordenadas(jo1)[0];
-    double lat = ejercicio6Coordenadas(jo1)[1];
-    System.out.printf("Coordenadas lon: %f, lat %f\n", lon, lat);
+    // System.out.println("--------------------Ejercicio 6--------------------------");
+    // ejercicio6Coordenadas(jo1);
+    // double lon = ejercicio6Coordenadas(jo1)[0];
+    // double lat = ejercicio6Coordenadas(jo1)[1];
+    // System.out.printf("Coordenadas lon: %f, lat %f\n", lon, lat);
 
-    System.out.println("--------------------Ejercicio 7--------------------------");
-    System.out.println(ejercicio7(jo1));
+    // System.out.println("--------------------Ejercicio 7--------------------------");
+    // System.out.println(ejercicio7(jo1));
 
-    System.out.println("--------------------Ejercicio 8--------------------------");
-    JsonObject jo3 = j3.asJsonObject();
-    ejercicio8(jo3);
+    // System.out.println("--------------------Ejercicio 8--------------------------");
+    // JsonObject jo3 = j3.asJsonObject();
+    // ejercicio8(jo3);
 
-    System.out.println("--------------------Ejercicio 9--------------------------");
-    JsonObject jo9 = ejercicio9JsonValue().asJsonObject();
-    ejercicio9(jo9);
-    
+    // System.out.println("--------------------Ejercicio 9--------------------------");
+    // JsonObject jo9 = ejercicio9JsonValue().asJsonObject();
+    // ejercicio9(jo9);
+
     System.out.println("--------------------Ejercicio 10--------------------------");
     JsonObject jo10 = ejercicio10JsonValue("ES").asJsonObject();
     // System.out.println(jo10);
     ejercicio10(jo10);
+
+    System.out.println("--------------------Ejercicio 11--------------------------");
+    ejercicio11(jo10);
   }
 }
