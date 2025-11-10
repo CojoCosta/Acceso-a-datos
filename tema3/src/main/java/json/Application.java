@@ -38,14 +38,12 @@ public class Application {
   public static JsonValue leerFichero(String ruta) throws FileNotFoundException {
     try (JsonReader reader = Json.createReader(new FileReader(ruta))) {
       return reader.read();
-      /*
-       * JsonStructure jsonSt = reader.read();
-       * System.out.println(jsonSt.getValueType());
-       * JsonObject jsonObj = reader.readObject();
-       * System.out.println(jsonObj.getValueType());
-       * JsonArray jsonArr = reader.readArray();
-       * System.out.println(jsonArr.getValueType());
-       */
+      // JsonStructure jsonSt = reader.read();
+      // System.out.println(jsonSt.getValueType());
+      // JsonObject jsonObj = reader.readObject();
+      // System.out.println(jsonObj.getValueType());
+      // JsonArray jsonArr = reader.readArray();
+      // System.out.println(jsonArr.getValueType());
     }
   }
 

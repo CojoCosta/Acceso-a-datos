@@ -16,14 +16,6 @@ public class Ejercicio5 {
                     System.out.printf("La cadena \"%s\" aparece en la  %d \n", cadena, numeroLineas);
 
                 }
-                //#region CON SPLIT
-                // String[] palabras = lineaActual.split("\\W+");
-                // for (String palabra : palabras) {
-                //     if (palabra.equalsIgnoreCase(cadena)) {
-                //         System.out.printf("La cadena \"%s\" aparece en la  %d", cadena, numeroLineas);
-                //     }
-                // }
-                //#endregion
             }
         } catch (IOException e) {
             System.out.println("Error");

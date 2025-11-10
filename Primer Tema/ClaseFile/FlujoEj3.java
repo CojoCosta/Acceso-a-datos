@@ -1,4 +1,4 @@
-package Tema1.ClaseFile;
+package ClaseFile;
 
 import java.io.FileReader;
 import java.io.FileWriter;
