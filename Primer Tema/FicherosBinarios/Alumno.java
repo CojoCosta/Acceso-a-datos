@@ -1,3 +1,4 @@
+package FicherosBinarios;
 class Alumno {
     private String nombre;
     private int codigo;

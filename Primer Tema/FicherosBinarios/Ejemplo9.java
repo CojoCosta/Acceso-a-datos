@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Alumno;
-
 public class Ejemplo9 {
     public static void main(String[] args) {
         try (DataOutputStream dout = new DataOutputStream(new FileOutputStream("ejemplo9.dat"))){

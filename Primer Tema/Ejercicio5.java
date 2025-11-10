@@ -14,7 +14,6 @@ public class Ejercicio5 {
                 numeroLineas++;
                 if (lineaActual.contains(cadena)) {
                     System.out.printf("La cadena \"%s\" aparece en la  %d \n", cadena, numeroLineas);
-
                 }
             }
         } catch (IOException e) {
