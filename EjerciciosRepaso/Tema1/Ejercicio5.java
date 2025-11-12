@@ -12,10 +12,10 @@ public class Ejercicio5 {
             String nuevaPalabra = "";
             while (sc.hasNextLine()) {
                 palabras = sc.nextLine().split(" ");
-                for (String palabra: palabras) {
+                for (String palabra : palabras) {
                     for (int i = 0; i < palabra.length(); i++) {
                         int asci = (int)palabra.charAt(i+desplazamiento);
-                        nuevaPalabra = palabra.replace(palabra.charAt(i),((char)asci));
+                        nuevaPalabra += palabra.replace(palabra.charAt(i),(char)asci).charAt(i);
                     }
                     System.out.print(nuevaPalabra);
                 }
