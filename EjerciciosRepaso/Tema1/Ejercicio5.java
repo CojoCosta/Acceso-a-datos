@@ -14,8 +14,8 @@ public class Ejercicio5 {
                 palabras = sc.nextLine().split(" ");
                 for (String palabra: palabras) {
                     for (int i = 0; i < palabra.length(); i++) {
-                        
-                        nuevaPalabra = palabra.replace(palabra.charAt(i), palabra.charAt(i+desplazamiento));
+                        int asci = (int)palabra.charAt(i+desplazamiento);
+                        nuevaPalabra = palabra.replace(palabra.charAt(i),((char)asci));
                     }
                     System.out.print(nuevaPalabra);
                 }
