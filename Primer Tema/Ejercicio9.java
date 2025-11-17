@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import FicherosBinarios.Alumno;
-
 public class Ejercicio9 {
     static public int codigo;
     static public String nombre;

@@ -1,0 +1,10 @@
+Val	Precio	Nombre
+5	21.50	CoD: Black Ops II
+4	22	Clash of Clans
+5	15.90	GTA V
+3	10.50	NBA 2K24
+2	19.75	Clash Royale
+1	5.50	League of Legends
+4	7	Brawl Stars
+3	8.99	Valorant
+2	35.5	FIFA 24
