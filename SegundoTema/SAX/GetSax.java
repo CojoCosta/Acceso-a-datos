@@ -25,8 +25,8 @@ public class GetSax {
         // BoletinSax2 bolSax2 = new BoletinSax2();
         // parser.parse(entradaXML, bolSax2);
         
-        BoletinSax3 bolSax3 = new BoletinSax3();
-        parser.parse(entradaXML, bolSax3);
+        // BoletinSax3 bolSax3 = new BoletinSax3();
+        // parser.parse(entradaXML, bolSax3);
         
         // BoletinSax4 bolSax4 = new BoletinSax4();
         // parser.parse(entradaXML, bolSax4);
