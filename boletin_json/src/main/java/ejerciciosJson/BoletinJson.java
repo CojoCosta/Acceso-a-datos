@@ -20,7 +20,7 @@ import javax.json.JsonWriter;
 import javax.net.ssl.HttpsURLConnection;
 import javax.print.DocFlavor.SERVICE_FORMATTED;
 
-public class BoletinJson {
+public class Boletinjson {
   public static JsonValue leeJSON(String ruta) {
     try {
       if (ruta.toLowerCase().startsWith("http://")) {
@@ -100,10 +100,10 @@ public class BoletinJson {
   public static JsonValue ejercicio10JsonValue(String tipo, String pais) {
     return leeJSON("https://app.ticketmaster.com/discovery/v2/events.json?classificationName=" + tipo + "&countryCode="
         + pais + "&apikey=AMXR5Rf8zlr7oGucsebGKvDCLOQmGUGE");
-
   }
 
-  public static int ejercicio4Id(JsonObject jo) {
+  public static int ejercicio4Id(JsonValue jv) {
+    JsonObject jo = jv.asJsonObject();
     int id;
     id = jo.getInt("id");
     return id;
@@ -293,7 +293,7 @@ public class BoletinJson {
 
     JsonObject jo1 = j1.asJsonObject();
     System.out.println("--------------------Ejercicio 4--------------------------");
-    System.out.printf("Id es: %d\n", ejercicio4Id(jo1));
+    System.out.printf("Id es: %d\n", ejercicio4Id(j1));
 
     System.out.println("--------------------Ejercicio 5--------------------------");
     System.out.printf("Id es: %s\n", ejercicio5Nombre(jo1));

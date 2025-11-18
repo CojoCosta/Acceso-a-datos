@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class Ejercicio6 {
     public static void archivoPorCaracteres(int numeroDeCaracteres) throws IOException {
-        try (FileReader fr = new FileReader(new File("prueba.txt"))) {
+        try (FileReader fr = new FileReader(new File("prueba.txt"))) { //Lee char a char o byte a byte
             int i = 1;
             while ((fr.read()) != -1) {
-                try (FileWriter fw = new FileWriter(new File("archivoChar" + (i++) + ".txt"))) {
+                try (FileWriter fw = new FileWriter(new File("archivoChar" + (i++) + ".txt"))) { //Escribe char a char o byte a byte
                     for (int j = 0; j <= numeroDeCaracteres; j++) {
                         fw.write(fr.read());
                     }
@@ -19,7 +19,7 @@ public class Ejercicio6 {
     }
 
     public static void archivoPorLineas(int numeroDeLineas) throws IOException {
-        try (Scanner sc = new Scanner(new File("prueba.txt"))) {
+        try (Scanner sc = new Scanner(new File("prueba.txt"))) {//Comprueba y lee (si hay) linea a linea
             int i = 1;
             while (sc.hasNext()) {
                 try (FileWriter fw = new FileWriter(new File("archivoLineas" + (i++) + ".txt"))) {
@@ -46,8 +46,8 @@ public class Ejercicio6 {
     }
 
     public static void main(String[] args) throws IOException {
-        // archivoPorCaracteres(40);
-        // archivoPorLineas(3);
+        archivoPorCaracteres(40);
+        archivoPorLineas(3);
         String[] ficheros = {"prueba.txt", "AscendenteSensible.txt"};
         unirArchivos(ficheros);
     }
