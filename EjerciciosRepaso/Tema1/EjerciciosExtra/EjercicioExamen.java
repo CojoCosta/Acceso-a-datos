@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class EjercicioExamen {
+    // Pillar los datos por separado de un archivo ignorando la primera linea
     public static String readTab(String fichero, int pos) throws IOException {
         String[] cadaElemento;
         int val = 0;
@@ -14,6 +15,7 @@ public class EjercicioExamen {
         try (Scanner sc = new Scanner(new File(fichero))) {
             String line1 = sc.nextLine();
             while (sc.hasNextLine()) {
+                //\t es el separador de cada dato de los juegos
                 cadaElemento = sc.nextLine().split("\t");
                 if (contarLineas == pos) {
                     val = Integer.parseInt(cadaElemento[0]);
@@ -24,6 +26,7 @@ public class EjercicioExamen {
             }
         }
         return String.format("Nombre: %s, multiplicacion: %f", nombre, val * precio);
+        //DEVUELVE NOMBRE DEL JUEGO Y EL PRECIO MULTIPLICADO POR LA VALORACION
     }
 
     public static void main(String[] args) throws IOException {

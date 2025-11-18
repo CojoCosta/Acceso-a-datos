@@ -32,7 +32,8 @@ public class Ejercicio10 {
 
     public static ArrayList<Object> consultarArchivo(File fichero) {
         ArrayList<Object> objetos = new ArrayList<>();
-        try (FileInputStream fis = new FileInputStream(fichero); ObjectInputStream ois = new ObjectInputStream(fis)) {
+        try (FileInputStream fis = new FileInputStream(fichero); 
+        ObjectInputStream ois = new ObjectInputStream(fis)) {
             while (true) {
                 objetos.add(ois.readObject());
             }
