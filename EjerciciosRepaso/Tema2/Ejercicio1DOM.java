@@ -1,6 +1,5 @@
 package EjerciciosRepaso.Tema2;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -23,43 +22,147 @@ public class Ejercicio1DOM {
         return doc;
     }
 
-    public static void main(String[] args) {
-        Document doc = creaArbol("EjerciciosRepaso\\Tema2\\liga.xml");
-        NodeList temporada;        
-        temporada = doc.getElementsByTagName("temporada");
+    public static void mostrarTemporada(Document doc) {
+        NodeList temporada = doc.getElementsByTagName("temporada");
         for (int i = 0; i < temporada.getLength(); i++) {
-            System.out.printf("Temporada: %s\n", temporada.item(i).getTextContent());
+            System.out.println(temporada.item(i).getTextContent());
         }
+    }
 
-        System.out.println("----------------EJ2----------------------");
-        NodeList evento;
-        evento = doc.getElementsByTagName("evento");
-        System.out.printf("Nº partidos: %d\n",evento.getLength());
+    public static void numPartidos(Document doc) {
+        NodeList evento = doc.getElementsByTagName("evento");
+        System.out.println(evento.getLength());
+    }
 
-
-        System.out.println("------------------EJ3-------------------");
-        NodeList evento3;
-        evento3 = doc.getElementsByTagName("evento");
-        for (int i = 0; i < evento3.getLength(); i++) {
-            if (evento3.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                Element cadaEvento = (Element)evento3.item(i);
-                String fecha = cadaEvento.getElementsByTagName("fecha").item(0).getTextContent();
-                String local = cadaEvento.getElementsByTagName("equipolocal").item(0).getTextContent();
-                String visitante = cadaEvento.getElementsByTagName("equipovisitante").item(0).getTextContent();
-                System.out.printf("Fecha: %s, Local %15s, Visitante: %15s\n",fecha,local,visitante);
-            }
-        }
-
-        System.out.println("------------------EJ4-------------------");
-        NodeList equipo = doc.getElementsByTagName("team");
-        int maxGoles = 0;
-        for (int i = 0; i < equipo.getLength(); i++) {
-            if (equipo.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                Element team = (Element)equipo.item(i);
-                String goles = team.getElementsByTagName("goals_scored").item(0).getTextContent();
-                int goals = Integer.parseInt(goles);
-
+    public static void equiposFechas(Document doc) {
+        NodeList listaEventos = doc.getElementsByTagName("evento");
+        System.out.println("PARTIDOS ENCONTRADOS:\n");
+        for (int i = 0; i < listaEventos.getLength(); i++) {
+            Node nodoEvento = listaEventos.item(i);
+            if (nodoEvento.getNodeType() == Node.ELEMENT_NODE) {
+                Element evento = (Element) nodoEvento;
+                String fecha = evento.getElementsByTagName("fecha").item(0).getTextContent();
+                String local = evento.getElementsByTagName("equipolocal").item(0).getTextContent();
+                String visitante = evento.getElementsByTagName("equipovisitante").item(0).getTextContent();
+                System.out.println(fecha + " — " + local + " vs " + visitante);
             }
         }
     }
+
+    public static void masGoles(Document doc) {
+        NodeList listaTeams = doc.getElementsByTagName("team");
+        System.out.println("EQUIPO MAXIMO GOLEADOR");
+        int golEquipo = 0;
+        int maxGoles = 0;
+        String equipo = "";
+        String maxEquipo = "";
+        for (int i = 0; i < listaTeams.getLength(); i++) {
+            Node nodoTeam = listaTeams.item(i);
+            if (nodoTeam.getNodeType() == Node.ELEMENT_NODE) {
+                Element team = (Element) nodoTeam;
+                golEquipo = Integer.parseInt(team.getElementsByTagName("goals_scored").item(0).getTextContent());
+                equipo = team.getElementsByTagName("name").item(0).getTextContent();
+                if (golEquipo > maxGoles) {
+                    maxGoles = golEquipo;
+                    maxEquipo = equipo;
+                }
+            }
+        }
+        System.out.println(maxEquipo + " - " + maxGoles);
+    }
+
+    public static void partidoColista(Document doc) {
+        NodeList listaTeams = doc.getElementsByTagName("team");
+        Element elementoColista = (Element) listaTeams.item(listaTeams.getLength() - 1);
+        String nombreColista = elementoColista.getElementsByTagName("name").item(0).getTextContent();
+        System.out.println("Nombre del colista:" + nombreColista);
+
+        NodeList listaEventos = doc.getElementsByTagName("evento");
+        for (int i = 0; i < listaEventos.getLength(); i++) {
+            Element evento = (Element) listaEventos.item(i);
+
+            String local = evento.getElementsByTagName("equipolocal").item(0).getTextContent();
+            String visitante = evento.getElementsByTagName("equipovisitante").item(0).getTextContent();
+            if (nombreColista.equals(local) || nombreColista.equals(visitante)) {
+                String fecha = evento.getElementsByTagName("fecha").item(0).getTextContent();
+                String golesLocal = evento.getElementsByTagName("resultadolocal").item(0).getTextContent();
+                String golesVisit = evento.getElementsByTagName("resultadovisitante").item(0).getTextContent();
+                System.out.println("PARTIDO DEL COLISTA:");
+                System.out.println(fecha + " — " + local + " vs " + visitante);
+                System.out.println("Resultado: " + golesLocal + " - " + golesVisit);
+            }
+        }
+    }
+
+    public static void masEmpates(Document doc) {
+        NodeList listaTeams = doc.getElementsByTagName("team");
+        System.out.println("EQUIPO MAXIMO EMPATADOR");
+        int empate = 0;
+        int empateMax = 0;
+        String equipo = "";
+        String equipoMax = "";
+        for (int i = 0; i < listaTeams.getLength(); i++) {
+            Element cadaEquipo = (Element) listaTeams.item(i);
+            empate = Integer.parseInt(cadaEquipo.getElementsByTagName("drawn").item(0).getTextContent());
+            equipo = cadaEquipo.getElementsByTagName("name").item(0).getTextContent();
+            if (empate > empateMax) {
+                empateMax = empate;
+                equipoMax = equipo;
+            }
+        }
+        System.out.printf("El equipo %s ha sido el maximo empatador con %d empates\n", equipoMax, empateMax);
+    }
+
+    public static void clasifTercerPartido(Document doc) {
+        NodeList eventos = doc.getElementsByTagName("evento");
+        Element tercerPartido = (Element) eventos.item(2);
+        String equipoLocal = tercerPartido.getElementsByTagName("equipolocal").item(0).getTextContent();
+        String equipoVisitante = tercerPartido.getElementsByTagName("equipovisitante").item(0).getTextContent();
+        String rangoLocal = "";
+        String rangoVisitante = "";
+        NodeList equipos = doc.getElementsByTagName("team");
+        for (int i = 0; i < equipos.getLength(); i++) {
+            Element cadaEquipo = (Element)equipos.item(i);
+            String nombreEquipo = cadaEquipo.getElementsByTagName("name").item(0).getTextContent();
+            if (nombreEquipo.equals(equipoLocal)){
+                rangoLocal = cadaEquipo.getElementsByTagName("rank").item(0).getTextContent();
+            } else if (nombreEquipo.equals(equipoVisitante)) {
+                rangoVisitante = cadaEquipo.getElementsByTagName("rank").item(0).getTextContent();
+            }
+        }
+        System.out.printf("Equipo local %s, posicion %s\n", equipoLocal, rangoLocal);
+        System.out.printf("Equipo visitante %s, posicion %s\n", equipoVisitante, rangoVisitante);
+    }
+
+    public static void main(String[] args) {
+        Document doc = creaArbol("EjerciciosRepaso\\Tema2\\liga.xml");
+        // Ejercicio 1
+        mostrarTemporada(doc);
+        System.out.println();
+
+        // Ejercicio 2
+        numPartidos(doc);
+        System.out.println();
+
+        // Ejercicio 3
+        equiposFechas(doc);
+        System.out.println();
+
+        // Ejercicio 4
+        masGoles(doc);
+        System.out.println();
+        
+        // Ejercicio 5
+        partidoColista(doc);
+        System.out.println();
+        
+        // Ejercicio 6
+        masEmpates(doc);
+        System.out.println();
+        
+        // Ejercicio 7
+        clasifTercerPartido(doc);
+        System.out.println();
+    }
+
 }
