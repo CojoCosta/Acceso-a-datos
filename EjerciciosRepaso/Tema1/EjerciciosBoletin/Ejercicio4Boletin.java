@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ejercicio4Boletin {
-    public static ArrayList<Character> leerArchivo(String ruta){
+    public static ArrayList<Character> leerArchivo(String ruta) {
         ArrayList<Character> letras = new ArrayList<>();
-        try(Scanner sc = new Scanner(new File(ruta))){
+        try (Scanner sc = new Scanner(new File(ruta))) {
             while (sc.hasNextLine()) {
                 String linea = sc.nextLine();
                 for (int i = 0; i < linea.length(); i++) {
-                    letras.add(letras.charAt(i));
+                    letras.add(linea.charAt(i));
                 }
             }
         } catch (FileNotFoundException e) {
@@ -19,25 +19,26 @@ public class Ejercicio4Boletin {
         return letras;
     }
 
-    public static void contarCaracteres(ArrayList<Character> letras){
+    public static void contarCaracteres(ArrayList<Character> letras) {
         char letraMasRepe = ' ';
         int numeroDeRepes = 0;
         int contador = 0;
         for (Character letra : letras) {
-            for (Character letra2 : letras) {
-                if (letra == letra2) {
+            for (int i = 0; i < letras.size(); i++) {
+                if (letra == letras.get(i)) {
                     contador ++;
                 }
-                if (contador > numeroDeRepes) {
-                    numeroDeRepes = contador;
-                    letraMasRepe = letra;
-                }
+            }
+            if (contador > numeroDeRepes) {
+                numeroDeRepes = contador;
+                letraMasRepe = letra;
             }
         }
         System.out.printf("La letra mas repetida es \"%s\" que se repite %d veces", letraMasRepe, numeroDeRepes);
     }
+
     public static void main(String[] args) {
-        contarCaracteres(leerArchivo("EjerciciosRepaso\\Tema1\\hola.txt"), 'a');
-        
+        contarCaracteres(leerArchivo("EjerciciosRepaso\\Tema1\\hola.txt"));
+
     }
 }
