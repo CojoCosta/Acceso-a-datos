@@ -1,0 +1,326 @@
+<marcador>
+    <competicion id="1">
+        <nombre>LFP 1 DIVISION</nombre>
+        <fase id="0" />
+        <jornada id="31" />
+        <temporada>2016_17</temporada>
+        <grupos>
+            <grupo id="1">
+                <eventos>
+                    <evento id="494891">
+                        <fecha>07/04/2017 20:45</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="132">Villarreal</equipolocal>
+                        <equipovisitante id="2">Athletic</equipovisitante>
+                        <resultadolocal>3</resultadolocal>
+                        <resultadovisitante>1</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494894">
+                        <fecha>08/04/2017 13:00</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="9">Espanyol</equipolocal>
+                        <equipovisitante id="92">Alavés</equipovisitante>
+                        <resultadolocal>1</resultadolocal>
+                        <resultadovisitante>0</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494892">
+                        <fecha>08/04/2017 16:15</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="14">R. Madrid</equipolocal>
+                        <equipovisitante id="3">Atlético</equipovisitante>
+                        <resultadolocal>1</resultadolocal>
+                        <resultadovisitante>1</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494897">
+                        <fecha>08/04/2017 18:30</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="17">Sevilla</equipolocal>
+                        <equipovisitante id="8">Deportivo</equipovisitante>
+                        <resultadolocal>4</resultadolocal>
+                        <resultadovisitante>2</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494899">
+                        <fecha>08/04/2017 20:45</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="204">Málaga</equipolocal>
+                        <equipovisitante id="4">Barcelona</equipovisitante>
+                        <resultadolocal>2</resultadolocal>
+                        <resultadovisitante>0</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494898">
+                        <fecha>09/04/2017 12:00</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="201">Granada</equipolocal>
+                        <equipovisitante id="21">Valencia</equipovisitante>
+                        <resultadolocal>1</resultadolocal>
+                        <resultadovisitante>3</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494895">
+                        <fecha>09/04/2017 16:15</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="6">Celta</equipolocal>
+                        <equipovisitante id="106">Eibar</equipovisitante>
+                        <resultadolocal>0</resultadolocal>
+                        <resultadovisitante>2</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494896">
+                        <fecha>09/04/2017 18:30</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="117">Osasuna</equipolocal>
+                        <equipovisitante id="111">Leganés</equipovisitante>
+                        <resultadolocal>2</resultadolocal>
+                        <resultadovisitante>1</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494900">
+                        <fecha>09/04/2017 20:45</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="110">Las Palmas</equipolocal>
+                        <equipovisitante id="5">Betis</equipovisitante>
+                        <resultadolocal>4</resultadolocal>
+                        <resultadovisitante>1</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                    <evento id="494893">
+                        <fecha>10/04/2017 20:45</fecha>
+                        <estado id="3">Finalizado</estado>
+                        <equipolocal id="15">R. Sociedad</equipolocal>
+                        <equipovisitante id="18">Sporting</equipovisitante>
+                        <resultadolocal>3</resultadolocal>
+                        <resultadovisitante>1</resultadovisitante>
+                        <tipodeporte>1</tipodeporte>
+                    </evento>
+                </eventos>
+                <clasificacion>
+                    <team>
+                        <name>R. Madrid</name>
+                        <rank>1</rank>
+                        <points>72</points>
+                        <played>30</played>
+                        <won>22</won>
+                        <lost>2</lost>
+                        <drawn>6</drawn>
+                        <goals_scored>79</goals_scored>
+                        <goals_conceded>31</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Barcelona</name>
+                        <rank>2</rank>
+                        <points>69</points>
+                        <played>31</played>
+                        <won>21</won>
+                        <lost>4</lost>
+                        <drawn>6</drawn>
+                        <goals_scored>88</goals_scored>
+                        <goals_conceded>28</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Atlético</name>
+                        <rank>3</rank>
+                        <points>62</points>
+                        <played>31</played>
+                        <won>18</won>
+                        <lost>5</lost>
+                        <drawn>8</drawn>
+                        <goals_scored>56</goals_scored>
+                        <goals_conceded>24</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Sevilla</name>
+                        <rank>4</rank>
+                        <points>61</points>
+                        <played>31</played>
+                        <won>18</won>
+                        <lost>6</lost>
+                        <drawn>7</drawn>
+                        <goals_scored>56</goals_scored>
+                        <goals_conceded>39</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Villarreal</name>
+                        <rank>5</rank>
+                        <points>54</points>
+                        <played>31</played>
+                        <won>15</won>
+                        <lost>7</lost>
+                        <drawn>9</drawn>
+                        <goals_scored>45</goals_scored>
+                        <goals_conceded>24</goals_conceded>
+                    </team>
+                    <team>
+                        <name>R. Sociedad</name>
+                        <rank>6</rank>
+                        <points>52</points>
+                        <played>31</played>
+                        <won>16</won>
+                        <lost>11</lost>
+                        <drawn>4</drawn>
+                        <goals_scored>46</goals_scored>
+                        <goals_conceded>42</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Eibar</name>
+                        <rank>7</rank>
+                        <points>50</points>
+                        <played>31</played>
+                        <won>14</won>
+                        <lost>9</lost>
+                        <drawn>8</drawn>
+                        <goals_scored>52</goals_scored>
+                        <goals_conceded>42</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Athletic</name>
+                        <rank>8</rank>
+                        <points>50</points>
+                        <played>31</played>
+                        <won>15</won>
+                        <lost>11</lost>
+                        <drawn>5</drawn>
+                        <goals_scored>40</goals_scored>
+                        <goals_conceded>36</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Espanyol</name>
+                        <rank>9</rank>
+                        <points>46</points>
+                        <played>31</played>
+                        <won>12</won>
+                        <lost>9</lost>
+                        <drawn>10</drawn>
+                        <goals_scored>43</goals_scored>
+                        <goals_conceded>42</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Celta*</name>
+                        <rank>10</rank>
+                        <points>41</points>
+                        <played>30</played>
+                        <won>12</won>
+                        <lost>13</lost>
+                        <drawn>5</drawn>
+                        <goals_scored>45</goals_scored>
+                        <goals_conceded>51</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Alavés</name>
+                        <rank>11</rank>
+                        <points>40</points>
+                        <played>31</played>
+                        <won>10</won>
+                        <lost>11</lost>
+                        <drawn>10</drawn>
+                        <goals_scored>29</goals_scored>
+                        <goals_conceded>38</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Valencia</name>
+                        <rank>12</rank>
+                        <points>39</points>
+                        <played>31</played>
+                        <won>11</won>
+                        <lost>14</lost>
+                        <drawn>6</drawn>
+                        <goals_scored>47</goals_scored>
+                        <goals_conceded>54</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Las Palmas</name>
+                        <rank>13</rank>
+                        <points>38</points>
+                        <played>31</played>
+                        <won>10</won>
+                        <lost>13</lost>
+                        <drawn>8</drawn>
+                        <goals_scored>50</goals_scored>
+                        <goals_conceded>52</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Málaga</name>
+                        <rank>14</rank>
+                        <points>33</points>
+                        <played>31</played>
+                        <won>8</won>
+                        <lost>14</lost>
+                        <drawn>9</drawn>
+                        <goals_scored>36</goals_scored>
+                        <goals_conceded>47</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Betis</name>
+                        <rank>15</rank>
+                        <points>31</points>
+                        <played>31</played>
+                        <won>8</won>
+                        <lost>16</lost>
+                        <drawn>7</drawn>
+                        <goals_scored>33</goals_scored>
+                        <goals_conceded>51</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Deportivo</name>
+                        <rank>16</rank>
+                        <points>28</points>
+                        <played>31</played>
+                        <won>6</won>
+                        <lost>15</lost>
+                        <drawn>10</drawn>
+                        <goals_scored>33</goals_scored>
+                        <goals_conceded>50</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Leganés</name>
+                        <rank>17</rank>
+                        <points>27</points>
+                        <played>31</played>
+                        <won>6</won>
+                        <lost>16</lost>
+                        <drawn>9</drawn>
+                        <goals_scored>26</goals_scored>
+                        <goals_conceded>48</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Sporting</name>
+                        <rank>18</rank>
+                        <points>22</points>
+                        <played>31</played>
+                        <won>5</won>
+                        <lost>19</lost>
+                        <drawn>7</drawn>
+                        <goals_scored>32</goals_scored>
+                        <goals_conceded>61</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Granada</name>
+                        <rank>19</rank>
+                        <points>20</points>
+                        <played>31</played>
+                        <won>4</won>
+                        <lost>19</lost>
+                        <drawn>8</drawn>
+                        <goals_scored>27</goals_scored>
+                        <goals_conceded>65</goals_conceded>
+                    </team>
+                    <team>
+                        <name>Osasuna</name>
+                        <rank>20</rank>
+                        <points>17</points>
+                        <played>31</played>
+                        <won>3</won>
+                        <lost>20</lost>
+                        <drawn>8</drawn>
+                        <goals_scored>32</goals_scored>
+                        <goals_conceded>70</goals_conceded>
+                    </team>
+                </clasificacion>
+            </grupo>
+        </grupos>
+    </competicion>
+</marcador>
