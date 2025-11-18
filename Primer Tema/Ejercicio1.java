@@ -18,6 +18,6 @@ public class Ejercicio1 {
             if (carpetas[i].isDirectory()) {
                 System.out.println("Nombre directorio: " + carpetas[i].getName());
             }
-        }
+        
     }
 }

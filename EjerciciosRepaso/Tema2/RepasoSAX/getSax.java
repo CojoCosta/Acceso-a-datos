@@ -30,13 +30,13 @@ public class getSax {
 
         System.out.println("-----------EJER 4------------");
         Ejercicio4SAX ejer4 = new Ejercicio4SAX();
-        parser.parse(entradaXML, ejer4);
+        // parser.parse(entradaXML, ejer4);
         System.out.println();
 
-        // System.out.println("-----------EJER 5------------");
-        // Ejercicio5SAX ejer5 = new Ejercicio5SAX();
-        // parser.parse(entradaXML, ejer5);
-        // System.out.println();
+        System.out.println("-----------EJER 5------------");
+        Ejercicio5SAX ejer5 = new Ejercicio5SAX();
+        parser.parse(entradaXML, ejer5);
+        System.out.println();
 
         // System.out.println("-----------EJER 3------------");
         // Ejercicio6SAX ejer6 = new Ejercicio6SAX();
