@@ -1,11 +1,8 @@
-
-package SAX;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class BoletinSax extends DefaultHandler {
+public class BoletinRepSax14 extends DefaultHandler {
     boolean flag = false;
     String cont = "";
     @Override
@@ -41,5 +38,4 @@ public class BoletinSax extends DefaultHandler {
         super.endDocument();
         flag = false;
     }
-
 }

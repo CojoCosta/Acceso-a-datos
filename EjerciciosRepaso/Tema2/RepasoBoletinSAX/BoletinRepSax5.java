@@ -1,19 +1,18 @@
-
-package SAX;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class BoletinSax extends DefaultHandler {
+public class BoletinRepSax5 extends DefaultHandler {
     boolean flag = false;
-    String cont = "";
+    String peliculas = "";
+    int contador  = 0;
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
-        cont  = new String(ch, start, length);
+        peliculas = new String(ch, start, length);
         if (flag) {
-            System.out.print(cont);
+            System.out.println(peliculas);
+            flag = false;
         }
     }
 
@@ -25,21 +24,25 @@ public class BoletinSax extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
-        System.out.print("<"+qName+">");
-        flag = true;
+        if (qName.equals("peliculas")) {
+            
+        }
     }
-    
+
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
-        System.out.println("<"+qName+"/>");
-        
+        if (qName.equals("pelicula")) {
+            if (qName.equals("director")) {
+                cont ++;
+                flag = false;
+            }
+            contador = 0;
+        }
     }
 
     @Override
     public void endDocument() throws SAXException {
         super.endDocument();
-        flag = false;
     }
-
 }

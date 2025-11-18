@@ -15,13 +15,13 @@ public class GetSax {
         // parser.parse(entradaXML, bolRepSax2);
         
         BoletinRepSax3 bolRepSax3 = new BoletinRepSax3();
-        parser.parse(entradaXML, bolRepSax3);
+        // parser.parse(entradaXML, bolRepSax3);
         
-        // BoletinSax4 bolSax4 = new BoletinSax4();
-        // parser.parse(entradaXML, bolSax4);
+        BoletinRepSax14 bolSax4 = new BoletinRepSax14();
+        parser.parse(entradaXML, bolSax4);
 
-        // BoletinSax5 bolSax5 = new BoletinSax5();
-        // parser.parse(entradaXML, bolSax5);
+        BoletinRepSax5 bolRepSax5 = new BoletinRepSax5();
+        // parser.parse(entradaXML, bolRepSax5);
     }
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
         getSax("EjerciciosRepaso\\Tema2\\RepasoBoletinSAX\\Peliculas.xml");
