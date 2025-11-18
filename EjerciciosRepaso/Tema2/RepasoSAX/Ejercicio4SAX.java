@@ -6,7 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class Ejercicio4SAX extends DefaultHandler {
     int maxGoles = 0;
-    String cantidadGoles;
+    int cantidadGoles;
     String equipo;
     String equipoGoleador;
     boolean esGol = false;
@@ -15,17 +15,13 @@ public class Ejercicio4SAX extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
-        cantidadGoles = new String(ch, start, length);
+        
         if (esGol) {
-            if (Integer.parseInt(cantidadGoles) > maxGoles) {
-                maxGoles = Integer.parseInt(cantidadGoles);
-            }
-            esGol = false;
+            cantidadGoles = Integer.parseInt(new String(ch, start, length));
         }
-        equipo = new String(ch, start, length);
+        
         if (esEquipo) {
-            equipoGoleador = equipo;
-            esEquipo = false;
+            equipo = new String(ch, start, length);
         }
     }
 
@@ -48,12 +44,24 @@ public class Ejercicio4SAX extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
-
+        if (qName == "name") {
+            esEquipo = false;
+        }else if (qName == "goals_scored"){
+            esGol = false;
+        }else if (qName == "team") {
+            
+            if (cantidadGoles > maxGoles) {
+                maxGoles = cantidadGoles;
+                equipoGoleador = equipo;
+            }
+            cantidadGoles = 0;
+            equipo = "";
+        }
     }
 
     @Override
     public void endDocument() throws SAXException {
         super.endDocument();
-        System.out.println(equipoGoleador + maxGoles);
+        System.out.println(equipoGoleador +": "+ maxGoles);
     }
 }
