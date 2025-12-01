@@ -49,7 +49,6 @@ public class Ejercicio4SAX extends DefaultHandler {
         }else if (qName == "goals_scored"){
             esGol = false;
         }else if (qName == "team") {
-            
             if (cantidadGoles > maxGoles) {
                 maxGoles = cantidadGoles;
                 equipoGoleador = equipo;
