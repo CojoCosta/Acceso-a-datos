@@ -113,15 +113,30 @@ public class ejercicios {
 
     public static void aulasConAlumnos() {
         try (Statement st = conexion.createStatement()) {
-            String consulta = "SELECT nombre FROM alumnos; SELECT nombre FROM asignaturas;";
-            ResultSet resultado = st.executeQuery(consulta);
+            String consulta1 = "SELECT * FROM alumnos JOIN asignaturas JOIN notas on asignaturas.COD = notas.asignatura and alumnos.codigo = notas.alumno";
+            ResultSet resultado = st.executeQuery(consulta1);
+            System.out.printf("%-10s\t%-30s\n","Nombres:", "Asignaturas:");
             while (resultado.next()) {
-                sou
+                System.out.printf("%-10s\t%-30s\n", resultado.getString(3), resultado.getString(7));
             }
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
     }
+
+    public static void aprobados(){
+        try (Statement st = conexion.createStatement()) {
+            String consulta1 = "SELECT asignaturas.nombre, alumnos.nombre, notas.nota FROM asignaturas, alumnos, notas WHERE asignaturas.COD = alumnos.codigo and notas.asignatura = asignaturas.COD AND notas.nota >= 5";
+            ResultSet resultado = st.executeQuery(consulta1);
+            System.out.printf("%-10s\t%-30s\t%-5s\n","Nombres:", "Asignaturas:", "Notas:");
+            while (resultado.next()) {
+                System.out.printf("%-10s\t%-30s\t%-5d\n", resultado.getString(2), resultado.getString(1), resultado.getInt(3));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+    }
+
 
     public static void main(String[] args) throws SQLException {
         abrirConexion("add", "localhost", "root", "");
@@ -140,6 +155,9 @@ public class ejercicios {
         System.out.println("-----------EJERCICIO 4.1----------------");
         // modificarAsignatura("FOL","Empresa");
         System.out.println("-----------EJERCICIO 5----------------");
+        aulasConAlumnos();
+        System.out.println("-----------EJERCICIO 5.1----------------");
+        aprobados();
 
         cerrarConexion();
     }
