@@ -136,6 +136,18 @@ public class ejercicios {
             System.out.println("ERROR");
         }
     }
+    public static void asignaturaSinAlumnos(){
+        try (Statement st = conexion.createStatement()) {
+            String consulta1 = "SELECT asignaturas.nombre FROM asignaturas JOIN alumnos ON asignaturas.COD != alumnos.codigo";
+            ResultSet resultado = st.executeQuery(consulta1);
+            System.out.printf("%-10s\n","Asignatura:");
+            while (resultado.next()) {
+                System.out.printf("%-10s\n", resultado.getString(2));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+    }
 
 
     public static void main(String[] args) throws SQLException {
@@ -158,7 +170,8 @@ public class ejercicios {
         aulasConAlumnos();
         System.out.println("-----------EJERCICIO 5.1----------------");
         aprobados();
-
+        System.out.println("-----------EJERCICIO 5.2----------------");
+        
         cerrarConexion();
     }
     // try (Statement st = conexion.createStatement()){
