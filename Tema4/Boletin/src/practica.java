@@ -1,12 +1,12 @@
-
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ejercicios {
+public class practica {
     private static Connection conexion;
 
     public static void abrirConexion(String bd, String servidor, String usuario, String password) {
@@ -96,6 +96,18 @@ public class ejercicios {
             System.out.println(rs.getInt(1) + "\t" +rs.getString(2));
         }
     }
+    public static void getInfo(String db) {
+        try {
+            DatabaseMetaData dbmt = conexion.getMetaData();
+            ResultSet tablas = dbmt.getTables(db, null, null, null);
+            while (tablas.next()) {
+                // System.out.printf("Nombre de la tabla: %s\n",tablas.getString("TABLE_NAME"));
+                System.out.println("Nombre de la tabla: "+tablas.getString("TABLE_NAME"));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+    }
     public static void main(String[] args) throws SQLException {
         abrirConexion("celta", "localhost", "root", "");
 
@@ -109,3 +121,5 @@ public class ejercicios {
     }
     // Ejercicios: 1.- Nombre y edad >30 años; 2.- Insertar Manuel ; 3.- Actualizar Guaita por Radu 
 }
+
+
