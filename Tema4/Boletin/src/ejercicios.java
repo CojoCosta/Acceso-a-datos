@@ -113,42 +113,71 @@ public class ejercicios {
 
     public static void aulasConAlumnos() {
         try (Statement st = conexion.createStatement()) {
-            String consulta1 = "SELECT * FROM alumnos JOIN asignaturas JOIN notas on asignaturas.COD = notas.asignatura and alumnos.codigo = notas.alumno";
+            String consulta1 = "SELECT alumnos.nombre,  asignaturas.nombre FROM alumnos JOIN asignaturas JOIN notas on asignaturas.COD = notas.asignatura and alumnos.codigo = notas.alumno";
             ResultSet resultado = st.executeQuery(consulta1);
-            System.out.printf("%-10s\t%-30s\n","Nombres:", "Asignaturas:");
+            System.out.printf("%-10s\t%-30s\n", "Nombres:", "Asignaturas:");
             while (resultado.next()) {
-                System.out.printf("%-10s\t%-30s\n", resultado.getString(3), resultado.getString(7));
+                System.out.printf("%-10s\t%-30s\n", resultado.getString("alumnos.nombre"),
+                        resultado.getString("asignaturas.nombre"));
             }
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
     }
 
-    public static void aprobados(){
+    public static void aprobados() {
         try (Statement st = conexion.createStatement()) {
-            String consulta1 = "SELECT asignaturas.nombre, alumnos.nombre, notas.nota FROM asignaturas, alumnos, notas WHERE asignaturas.COD = alumnos.codigo and notas.asignatura = asignaturas.COD AND notas.nota >= 5";
+            String consulta1 = "SELECT asignaturas.nombre , alumnos.nombre, notas.nota FROM asignaturas, alumnos, notas WHERE asignaturas.COD = alumnos.codigo and notas.asignatura = asignaturas.COD AND notas.nota >= 5";
             ResultSet resultado = st.executeQuery(consulta1);
-            System.out.printf("%-10s\t%-30s\t%-5s\n","Nombres:", "Asignaturas:", "Notas:");
+            System.out.printf("%-10s\t%-30s\t%-5s\n", "Nombres:", "Asignaturas:", "Notas:");
             while (resultado.next()) {
-                System.out.printf("%-10s\t%-30s\t%-5d\n", resultado.getString(2), resultado.getString(1), resultado.getInt(3));
-            }
-        } catch (SQLException e) {
-            System.out.println("ERROR");
-        }
-    }
-    public static void asignaturaSinAlumnos(){
-        try (Statement st = conexion.createStatement()) {
-            String consulta1 = "SELECT asignaturas.nombre FROM asignaturas JOIN alumnos ON asignaturas.COD != alumnos.codigo";
-            ResultSet resultado = st.executeQuery(consulta1);
-            System.out.printf("%-10s\n","Asignatura:");
-            while (resultado.next()) {
-                System.out.printf("%-10s\n", resultado.getString(2));
+                System.out.printf("%-10s\t%-30s\t%-5d\n", resultado.getString("alumnos.nombre"),
+                        resultado.getString("asignaturas.nombre"), resultado.getInt("notas.nota"));
             }
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
     }
 
+    public static void asignaturaSinAlumnos() {
+        try (Statement st = conexion.createStatement()) {
+            String consulta1 = "SELECT * FROM asignaturas WHERE NOT EXISTS (SELECT * FROM notas WHERE notas.asignatura = asignaturas.COD)";
+            ResultSet resultado = st.executeQuery(consulta1);
+            System.out.printf("%-10s ", "Asignatura:");
+            while (resultado.next()) {
+                System.out.printf("%-10s\n", resultado.getString("asignaturas.nombre"));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+    }
+
+    public static void nombreYAltura(String patron, int altura) {
+        try (Statement st = conexion.createStatement()) {
+            String consulta = String.format(
+                    "SELECT nombre, altura FROM alumnos WHERE nombre like \"%%%s%%\" AND altura > %d", patron, altura);
+
+            ResultSet resultado = st.executeQuery(consulta);
+            while (resultado.next()) {
+                System.out.printf("Nombre: %-10s\t Altura: %-5d\n", resultado.getString("alumnos.nombre"),
+                        resultado.getInt("alumnos.altura"));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+    }
+
+    private static PreparedStatement ps = null;
+    public static void nombreYAltura2(String patron, int altura) throws SQLException {
+        String consulta = String.format("SELECT nombre, altura FROM alumnos WHERE nombre like \"%%?%%\" AND altura > ?");
+        ps = conexion.prepareStatement(consulta);
+        ps.setString(1, patron);
+        ps.setInt(2, altura);
+        ResultSet resultado = ps.executeQuery(consulta);
+        while (resultado.next()) {
+            System.out.printf("Nombre: %-10s\t Altura: %-5d\n", resultado.getString("alumnos.nombre"), resultado.getInt("alumnos.altura"));
+        }
+    }
 
     public static void main(String[] args) throws SQLException {
         abrirConexion("add", "localhost", "root", "");
@@ -171,7 +200,11 @@ public class ejercicios {
         System.out.println("-----------EJERCICIO 5.1----------------");
         aprobados();
         System.out.println("-----------EJERCICIO 5.2----------------");
-        
+        asignaturaSinAlumnos();
+        System.out.println("-----------EJERCICIO 6----------------");
+        nombreYAltura("a", 170);
+        System.out.println("-----------EJERCICIO 6.1----------------");
+        nombreYAltura2("a", 170);
         cerrarConexion();
     }
     // try (Statement st = conexion.createStatement()){
