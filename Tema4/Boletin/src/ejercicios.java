@@ -199,9 +199,9 @@ public class ejercicios {
             String consulta = "select *, nombre as non from alumnos";
             ResultSet rs = st.executeQuery(consulta);
             ResultSetMetaData rsmd = rs.getMetaData();
-            System.out.printf("%-3s\t%-25s\t%-25s\t%-25s\t%25s\t%25s\n","NUM", "NOMBRE COL", "ALIAS COL", "TIPO DATO", "AUTOINCREMENT", "NULLABLE");
+            System.out.printf("%-3s\t%-20s\t%-20s\t%-25s\t%-25s\t%-25s\n","NUM", "NOMBRE COL", "ALIAS COL", "TIPO DATO", "AUTOINCREMENT", "NULLABLE");
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.printf("%-3d\tNombre: %-20s\tAlias: %-20s\tTipo de dato: %-20s\tEs autoincrement: %-20s\tEs nullable: %-20s\n", i, rsmd.getColumnName(i),rsmd.getColumnLabel(i) ,rsmd.getColumnTypeName(i),rsmd.getColumnTypeName(i), rsmd.isAutoIncrement(i),rsmd.isNullable(i));
+                System.out.printf("%-3d\tNombre: %-15s\tAlias: %-15s\tTipo de dato: %-20s\tEs autoincrement: %-20s\tEs nullable: %-20s\n", i, rsmd.getColumnName(i),rsmd.getColumnLabel(i) ,rsmd.getColumnTypeName(i), rsmd.isAutoIncrement(i),rsmd.isNullable(i));
             }
         } catch (SQLException e) {
             System.out.println("ERROR");        
