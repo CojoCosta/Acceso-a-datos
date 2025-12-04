@@ -60,7 +60,8 @@ public class getInfo {
                 System.out.printf("%-3d\tNombre columna: %-20s\tTipo de columna: %-20s\n", i, rsmd.getColumnName(i), rsmd.getColumnTypeName(i));
             }
         } catch (SQLException e) {
-            System.out.println("ERROR");        }
+            System.out.println("ERROR");        
+        }
     }
 
     public static void main(String[] args) {

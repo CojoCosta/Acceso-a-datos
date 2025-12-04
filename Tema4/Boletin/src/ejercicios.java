@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -168,14 +169,42 @@ public class ejercicios {
     }
 
     private static PreparedStatement ps = null;
+
     public static void nombreYAltura2(String patron, int altura) throws SQLException {
-        String consulta = String.format("SELECT nombre, altura FROM alumnos WHERE nombre like \"%%?%%\" AND altura > ?");
+        String consulta = String.format("SELECT nombre, altura FROM alumnos WHERE nombre like ? AND altura > ?");
         ps = conexion.prepareStatement(consulta);
         ps.setString(1, patron);
         ps.setInt(2, altura);
-        ResultSet resultado = ps.executeQuery(consulta);
+        ResultSet resultado = ps.executeQuery();
         while (resultado.next()) {
-            System.out.printf("Nombre: %-10s\t Altura: %-5d\n", resultado.getString("alumnos.nombre"), resultado.getInt("alumnos.altura"));
+            System.out.printf("Nombre: %-10s\t Altura: %-5d\n", resultado.getString("alumnos.nombre"),
+                    resultado.getInt("alumnos.altura"));
+        }
+    }
+
+    public static void añadirColumna(String nombreTabla, String nombreColumna, String tipoDato, String propiedades) {
+        try (Statement st = conexion.createStatement()) {
+            String consulta1 = String.format("ALTER TABLE %s ADD %s %s %s", nombreTabla, nombreColumna, tipoDato,
+                    propiedades);
+            int resultado = st.executeUpdate(consulta1);
+            System.out.println(resultado);
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+    }
+
+    //Ej 10
+    public static void obtenerDatos() {
+        try (Statement st = conexion.createStatement()){
+            String consulta = "select *, nombre as non from alumnos";
+            ResultSet rs = st.executeQuery(consulta);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            System.out.printf("%-3s\t%-25s\t%-25s\t%-25s\t%25s\t%25s\n","NUM", "NOMBRE COL", "ALIAS COL", "TIPO DATO", "AUTOINCREMENT", "NULLABLE");
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                System.out.printf("%-3d\tNombre: %-20s\tAlias: %-20s\tTipo de dato: %-20s\tEs autoincrement: %-20s\tEs nullable: %-20s\n", i, rsmd.getColumnName(i),rsmd.getColumnLabel(i) ,rsmd.getColumnTypeName(i),rsmd.getColumnTypeName(i), rsmd.isAutoIncrement(i),rsmd.isNullable(i));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR");        
         }
     }
 
@@ -196,15 +225,33 @@ public class ejercicios {
         System.out.println("-----------EJERCICIO 4.1----------------");
         // modificarAsignatura("FOL","Empresa");
         System.out.println("-----------EJERCICIO 5----------------");
-        aulasConAlumnos();
+        // aulasConAlumnos();
         System.out.println("-----------EJERCICIO 5.1----------------");
-        aprobados();
+        // aprobados();
         System.out.println("-----------EJERCICIO 5.2----------------");
-        asignaturaSinAlumnos();
+        // asignaturaSinAlumnos();
         System.out.println("-----------EJERCICIO 6----------------");
-        nombreYAltura("a", 170);
+        // nombreYAltura("a", 170);
         System.out.println("-----------EJERCICIO 6.1----------------");
-        nombreYAltura2("a", 170);
+        // nombreYAltura2("%a%", 170);
+        System.out.println("-----------EJERCICIO 7----------------");
+        // long inicio = System.nanoTime();
+        // for (int i = 0; i < 1000; i++) {
+        // nombreYAltura2("%a%", 170);
+        // }
+        // long fin = System.nanoTime();
+        // System.out.println("No preparada "+(fin - inicio));
+        // long inicio2 = System.nanoTime();
+        // for (int i = 0; i < 1000; i++) {
+        // nombreYAltura2("%a%", 170);
+        // }
+        // long fin2 = System.nanoTime();
+        // System.out.println("Preparada "+(fin2 - inicio2));
+        System.out.println("-----------EJERCICIO 8----------------");
+        // añadirColumna("imagenes", "curso", "TINYINT", "");
+        System.out.println("-----------EJERCICIO 9----------------");
+        System.out.println("-----------EJERCICIO 10----------------");
+        obtenerDatos();
         cerrarConexion();
     }
     // try (Statement st = conexion.createStatement()){
