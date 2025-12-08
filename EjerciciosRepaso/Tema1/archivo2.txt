@@ -1,0 +1,1 @@
+nombre: Hugo; edad: 21; peso: 12,50 39 nombre: Italiani; edad: 40; peso: 100,50nombre: Diego; edad: 25; peso: 90,50
