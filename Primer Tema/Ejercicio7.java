@@ -56,14 +56,12 @@ public class Ejercicio7 {
                 leerArchivo(nomArchivo);
                 Collections.sort(lineas);
                 escribirArchivo("ascendenteSensible.txt", nomArchivo, lineas);
-
                 break;
 
             case "D":
                 leerArchivo(nomArchivo);
                 Collections.sort(lineas, Collections.reverseOrder());
                 escribirArchivo("descendenteSensible.txt", nomArchivo, lineas);
-                
                 break;
                 
                 case "a":
