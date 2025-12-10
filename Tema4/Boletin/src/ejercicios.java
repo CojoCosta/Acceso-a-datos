@@ -1,5 +1,6 @@
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -193,25 +194,89 @@ public class ejercicios {
         }
     }
 
-    //Ej 10
+    // Ej 9
+    public static void ejercicio9_a() throws SQLException {
+        String nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd;
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        nombre_driver = dbmd.getDriverName();
+        version_driver = dbmd.getDriverVersion();
+        url_conexion = dbmd.getURL();
+        nombre_sgbd = dbmd.getDatabaseProductName();
+        version_sgbd = dbmd.getDatabaseProductVersion();
+        palabras_sgbd = dbmd.getSQLKeywords();
+        System.out.printf( "Nombre driver: %s \nVersión driver: %s \nURL: %s \nNombre sgbd: %s \nVersion sgbd: %s \nPalabras reservadas: %s\n", nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd);
+    }
+
+    public static void ejercicio9_b() throws SQLException {
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet catalogo = dbmd.getCatalogs();
+        while (catalogo.next()) {
+            System.out.printf("%s\n", catalogo.getString("TABLE_CAT"));
+        }
+    }
+
+    public static void ejercicio9_c() throws SQLException {
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet rs = dbmd.getTables("add", null, null, null);
+        while (rs.next()) {
+            System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"),
+                    rs.getString("TABLE_TYPE"));
+        }
+    }
+
+    public static void ejercicio9_d() throws SQLException{
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet rs = dbmd.getTables("add", null, null, null);
+        while (rs.next()) {
+            if (rs.getString("TABLE_TYPE").equals("VIEW")) {
+                System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"), rs.getString("TABLE_TYPE"));
+            }
+        }
+    }
+
+    public static void ejercicio9_e() throws SQLException{
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet catalogo = dbmd.getCatalogs();
+        ResultSet rs = dbmd.getTables("add", null, null, null);
+        while (rs.next()) {
+            System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"), rs.getString("TABLE_TYPE"));
+        }
+        while (catalogo.next()) {
+            System.out.printf("%s\n", catalogo.getString("TABLE_CAT"));
+        }
+    }
+
+    public static void ejercicio9_f() {
+
+    }
+
+    public static void ejercicio9_g() {
+
+    }
+
+    // Ej 10
     public static void obtenerDatos() {
-        try (Statement st = conexion.createStatement()){
+        try (Statement st = conexion.createStatement()) {
             String consulta = "select *, nombre as non from alumnos";
             ResultSet rs = st.executeQuery(consulta);
             ResultSetMetaData rsmd = rs.getMetaData();
-            System.out.printf("%-3s\t%-20s\t%-20s\t%-25s\t%-25s\t%-25s\n","NUM", "NOMBRE COL", "ALIAS COL", "TIPO DATO", "AUTOINCREMENT", "NULLABLE");
+            System.out.printf("%-3s\t%-20s\t%-20s\t%-25s\t%-25s\t%-25s\n", "NUM", "NOMBRE COL", "ALIAS COL",
+                    "TIPO DATO", "AUTOINCREMENT", "NULLABLE");
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.printf("%-3d\tNombre: %-15s\tAlias: %-15s\tTipo de dato: %-20s\tEs autoincrement: %-20s\tEs nullable: %-20s\n", i, rsmd.getColumnName(i),rsmd.getColumnLabel(i) ,rsmd.getColumnTypeName(i), rsmd.isAutoIncrement(i),rsmd.isNullable(i));
+                System.out.printf(
+                        "%-3d\tNombre: %-15s\tAlias: %-15s\tTipo de dato: %-20s\tEs autoincrement: %-20s\tEs nullable: %-20s\n",
+                        i, rsmd.getColumnName(i), rsmd.getColumnLabel(i), rsmd.getColumnTypeName(i),
+                        rsmd.isAutoIncrement(i), rsmd.isNullable(i));
             }
         } catch (SQLException e) {
-            System.out.println("ERROR");        
+            System.out.println("ERROR");
         }
     }
 
     public static void main(String[] args) throws SQLException {
         abrirConexion("add", "localhost", "root", "");
         System.out.println("-----------EJERCICIO 1----------------");
-        consultarDatos("a");
+        // consultarDatos("a");
         System.out.println("-----------EJERCICIO 2----------------");
         // altaAlumno("Carlos", "Italiani", 187, 20);
         System.out.println("-----------EJERCICIO 2.1----------------");
@@ -250,9 +315,14 @@ public class ejercicios {
         System.out.println("-----------EJERCICIO 8----------------");
         // añadirColumna("imagenes", "curso", "TINYINT", "");
         System.out.println("-----------EJERCICIO 9----------------");
+        // ejercicio9_a();
+        // ejercicio9_b();
+        // ejercicio9_c();
+        // ejercicio9_d();
+        ejercicio9_e();
         System.out.println("-----------EJERCICIO 10----------------");
-        obtenerDatos();
-        cerrarConexion();
+        // obtenerDatos();
+        // cerrarConexion();
     }
     // try (Statement st = conexion.createStatement()){
 
