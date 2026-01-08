@@ -204,7 +204,9 @@ public class ejercicios {
         nombre_sgbd = dbmd.getDatabaseProductName();
         version_sgbd = dbmd.getDatabaseProductVersion();
         palabras_sgbd = dbmd.getSQLKeywords();
-        System.out.printf( "Nombre driver: %s \nVersión driver: %s \nURL: %s \nNombre sgbd: %s \nVersion sgbd: %s \nPalabras reservadas: %s\n", nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd);
+        System.out.printf(
+                "Nombre driver: %s \nVersión driver: %s \nURL: %s \nNombre sgbd: %s \nVersion sgbd: %s \nPalabras reservadas: %s\n",
+                nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd);
     }
 
     public static void ejercicio9_b() throws SQLException {
@@ -224,34 +226,49 @@ public class ejercicios {
         }
     }
 
-    public static void ejercicio9_d() throws SQLException{
+    public static void ejercicio9_d() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getTables("add", null, null, null);
         while (rs.next()) {
             if (rs.getString("TABLE_TYPE").equals("VIEW")) {
-                System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"), rs.getString("TABLE_TYPE"));
+                System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"),
+                        rs.getString("TABLE_TYPE"));
             }
         }
     }
 
-    public static void ejercicio9_e() throws SQLException{
+    public static void ejercicio9_e() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet catalogo = dbmd.getCatalogs();
         ResultSet rs = dbmd.getTables("add", null, null, null);
         while (rs.next()) {
-            System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"), rs.getString("TABLE_TYPE"));
+            System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"),
+                    rs.getString("TABLE_TYPE"));
         }
         while (catalogo.next()) {
             System.out.printf("%s\n", catalogo.getString("TABLE_CAT"));
         }
     }
 
-    public static void ejercicio9_f() {
-
+    public static void ejercicio9_f() throws SQLException {
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet rs = dbmd.getProcedures("add", null, null);
+        while (rs.next()) {
+            System.out.println(rs.getString("PROCEDURE_NAME"));
+        }
     }
 
-    public static void ejercicio9_g() {
+    public static void ejercicio9_g() throws SQLException {
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet rs = dbmd.getColumns("add", null, "%a", null);
+        while (rs.next()) {
+            System.out.printf("");//ACABAR
+        }
+    }
 
+    public static void ejercicio9_h() throws SQLException{
+        DatabaseMetaData dbmd = conexion.getMetaData();
+        ResultSet rs = dbmd.getTables(null, null, null, null);
     }
 
     // Ej 10
@@ -319,7 +336,8 @@ public class ejercicios {
         // ejercicio9_b();
         // ejercicio9_c();
         // ejercicio9_d();
-        ejercicio9_e();
+        // ejercicio9_e();
+        ejercicio9_f();
         System.out.println("-----------EJERCICIO 10----------------");
         // obtenerDatos();
         // cerrarConexion();
