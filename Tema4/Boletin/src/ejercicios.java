@@ -295,7 +295,8 @@ public class ejercicios {
     public static void ejercicio12() {
 
             try (Statement st = conexion.createStatement()) {
-                String consulta1 = String.format("INSERT INTO alumnos (nombre, apellidos, altura, aula) VALUES %s, %s, %d, %d", nombre, apellidos, altura, aula);
+                String consulta1 = String.format("INSERT INTO alumnos (nombre, apellidos, altura, aula) VALUES ('Carlos', 'Italiani', 192, 22)");
+                String consulta2 = String.format("INSERT INTO alumnos (nombre, apellidos, altura, aula) VALUES ('Hugo', 'Montes', 185, 22)");
                 int resultado = st.executeUpdate(consulta1);
                 System.out.println(resultado);
             } catch (SQLException e) {
