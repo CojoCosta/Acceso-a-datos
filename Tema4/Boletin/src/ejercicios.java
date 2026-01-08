@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class ejercicios {
     private static Connection conexion;
@@ -262,13 +263,14 @@ public class ejercicios {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getColumns("add", null, "%a", null);
         while (rs.next()) {
-            System.out.printf("");//ACABAR
+            System.out.printf("");// ACABAR
         }
     }
 
-    public static void ejercicio9_h() throws SQLException{
+    public static void ejercicio9_h() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getTables(null, null, null, null);
+        // ACABAR
     }
 
     // Ej 10
@@ -287,6 +289,18 @@ public class ejercicios {
             }
         } catch (SQLException e) {
             System.out.println("ERROR");
+        }
+    }
+
+    public static void ejercicio12() {
+
+            try (Statement st = conexion.createStatement()) {
+                String consulta1 = String.format("INSERT INTO alumnos (nombre, apellidos, altura, aula) VALUES %s, %s, %d, %d", nombre, apellidos, altura, aula);
+                int resultado = st.executeUpdate(consulta1);
+                System.out.println(resultado);
+            } catch (SQLException e) {
+                System.out.println("ERROR");
+            }
         }
     }
 
@@ -337,10 +351,19 @@ public class ejercicios {
         // ejercicio9_c();
         // ejercicio9_d();
         // ejercicio9_e();
-        ejercicio9_f();
+        // ejercicio9_f();
+        // ejercicio9_g();
+        // ejercicio9_h();
         System.out.println("-----------EJERCICIO 10----------------");
         // obtenerDatos();
         // cerrarConexion();
+        System.out.println("-----------EJERCICIO 12----------------");
+        ejercicio12();
+        System.out.println("-----------EJERCICIO 13----------------");
+
+        System.out.println("-----------EJERCICIO 15----------------");
+
+        System.out.println("-----------EJERCICIO 16----------------");
     }
     // try (Statement st = conexion.createStatement()){
 
