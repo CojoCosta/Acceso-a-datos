@@ -1,0 +1,11 @@
+Api
+Peticiones (4 tipos)
+1º @POST (SUBIR ALGO, 'POSTEAR')
+2º @PUT (ACTUALIZAR)
+3º @DELETE (BORRAR)
+4º @GET (SOLICITAR INFORMACIÓN)
+
+Cliente1 envia un mensaje al cliente 2 esquema:
+Cliente1 -> @POST -> Servidor -> INSERT -> BD -> SELECT -> Servidor <- @GET -> Cliente2
+
+
