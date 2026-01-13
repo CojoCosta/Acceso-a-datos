@@ -54,6 +54,5 @@ public class Personas {
         }
         return personasConCadena;
     }
-
-
+    
 }
