@@ -9,3 +9,11 @@ Cliente1 envia un mensaje al cliente 2 esquema:
 Cliente1 -> @POST -> Servidor -> INSERT -> BD -> SELECT -> Servidor <- @GET -> Cliente2
 
 
+- Maven
+Dentro de una clase
+@GET
+@Produces(MediaType.APPLICENTION_JSON)
+
+@POST
+@Consumes(MediaType.APPLICATION_XML) -> Content type
+@Produces(MediaType.APPLICATION_JSON) -> Devuelve un accept
