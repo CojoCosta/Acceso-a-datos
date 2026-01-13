@@ -7,6 +7,7 @@ import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
@@ -20,7 +21,7 @@ public class Coche {
     String text;
 
     @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCar(Car coche) {
         coches.add(coche); // Se añade el coche a la lista
@@ -36,4 +37,27 @@ public class Coche {
         coches.add(c); // Se añade el coche a la lista
         return coches;
     }
+
+    @GET
+    @Path("/{modelo}")
+    public String quienEres(@PathParam("modelo") String name) {
+        return "Hola, soy un " + name;
+    }
+
+    @GET
+    @Path("coche")
+    public String marcaYModelo(@QueryParam("marca") String marca,
+            @QueryParam("modelo") String mo) {
+        return "La marca es " + marca + " y el modelo " + mo;
+        // http://localhost:8080/tema5maven/rest/coches/coche?marca=nissan&modelo=pixo
+    }
+
+    @GET
+    @Path("cocheDefecto")
+    public String marcaYModeloD(
+            @DefaultValue("Citroen") @QueryParam("marca") String marca,
+            @DefaultValue("Saxo") @QueryParam("modelo") String mo) {
+        return "La marca es " + marca + " y el modelo " + mo;
+    }
+    //http://localhost:8080/tema5maven/rest/coches/cocheDefecto
 }

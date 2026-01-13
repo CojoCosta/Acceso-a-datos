@@ -1,6 +1,9 @@
 package ejem1;
 import java.io.Serializable;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement 
 public class Persona implements Serializable{
     public int id;
     public String cadena;
