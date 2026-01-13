@@ -1,21 +1,30 @@
 package ejem1;
-import java.io.Serializable;
-
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement 
-public class Persona implements Serializable{
-    public int id;
-    public String cadena;
-    public boolean casado;
-    public String sexo;
+public class Persona {
+    private int id;
+    private String nombre;
+    private boolean casado;
+    private String sexo;
+
+    public Persona(){
+
+    }
+    
+    public Persona(int id, String nombre, boolean casado, String sexo){
+        this.id = id;
+        this.nombre = nombre;
+        this.casado = casado;
+        this.sexo = sexo;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setCadena(String cadena) {
-        this.cadena = cadena;
+    public void setNombre(String cadena) {
+        this.nombre = cadena;
     }
 
     public void setCasado(boolean casado) {
@@ -30,8 +39,8 @@ public class Persona implements Serializable{
         return id;
     }
 
-    public String getCadena() {
-        return cadena;
+    public String getNombre() {
+        return nombre;
     }
 
     public boolean getCasado() {
