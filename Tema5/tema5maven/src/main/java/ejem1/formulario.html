@@ -8,16 +8,17 @@
 </head>
 
 <body>
-        <form method="POST" action="http://localhost:8080/tema5maven/rest/personas/form">
+    <form method="POST" action="http://localhost:8080/tema5maven/rest/personas/form">
         <h1>Formulario</h1>
-        <input type="number" name="id" id="id" placeholder="id"><br><br>
-        <input type="text" name="nombre" id="nombre" placeholder="Nombre"><br><br> 
+        <input type="number" name="id" placeholder="id"><br><br>
+        <input type="text" name="nombre" placeholder="Nombre"><br><br>
         <span>Estado civil: </span>
-        <input type="radio" name="casado" id="casado" checked value="true"><label for="genero1">Casado</label> 
-        <input type="radio" name="casado" id="soltero" value="false"><label for="genero2">Soltero</label><br> 
+        <input type="radio" name="casado" checked value="true"><label for="genero1">Casado</label>
+        <input type="radio" name="casado" value="false"><label for="genero2">Soltero</label><br>
         <span>Sexo: </span>
-        <input type="radio" name="sexo" id="genero1" checked value="hombre"><label for="genero1">Hombre</label>
-        <input type="radio" name="sexo" id="genero2" value="mujer"><label for="genero2">Mujer</label>
-        </form>"
+        <input type="radio" name="sexo" checked value="hombre"><label for="genero1">Hombre</label>
+        <input type="radio" name="sexo" value="mujer"><label for="genero2">Mujer</label><br>
+        <input type="submit" value="enviar">
 </body>
+
 </html>
