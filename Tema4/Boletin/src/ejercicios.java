@@ -1,4 +1,10 @@
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -7,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Scanner;
 
 public class ejercicios {
@@ -171,7 +178,6 @@ public class ejercicios {
     }
 
     private static PreparedStatement ps = null;
-
     public static void nombreYAltura2(String patron, int altura) throws SQLException {
         String consulta = String.format("SELECT nombre, altura FROM alumnos WHERE nombre like ? AND altura > ?");
         ps = conexion.prepareStatement(consulta);
@@ -195,8 +201,7 @@ public class ejercicios {
         }
     }
 
-    // Ej 9
-    public static void ejercicio9_a() throws SQLException {
+    public static void ejercicio9A() throws SQLException {
         String nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd;
         DatabaseMetaData dbmd = conexion.getMetaData();
         nombre_driver = dbmd.getDriverName();
@@ -210,7 +215,7 @@ public class ejercicios {
                 nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd);
     }
 
-    public static void ejercicio9_b() throws SQLException {
+    public static void ejercicio9B() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet catalogo = dbmd.getCatalogs();
         while (catalogo.next()) {
@@ -218,7 +223,7 @@ public class ejercicios {
         }
     }
 
-    public static void ejercicio9_c() throws SQLException {
+    public static void ejercicio9C() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getTables("add", null, null, null);
         while (rs.next()) {
@@ -227,7 +232,7 @@ public class ejercicios {
         }
     }
 
-    public static void ejercicio9_d() throws SQLException {
+    public static void ejercicio9D() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getTables("add", null, null, null);
         while (rs.next()) {
@@ -238,7 +243,7 @@ public class ejercicios {
         }
     }
 
-    public static void ejercicio9_e() throws SQLException {
+    public static void ejercicio9E() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet catalogo = dbmd.getCatalogs();
         ResultSet rs = dbmd.getTables("add", null, null, null);
@@ -251,7 +256,7 @@ public class ejercicios {
         }
     }
 
-    public static void ejercicio9_f() throws SQLException {
+    public static void ejercicio9F() throws SQLException {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getProcedures("add", null, null);
         while (rs.next()) {
@@ -259,22 +264,53 @@ public class ejercicios {
         }
     }
 
-    public static void ejercicio9_g() throws SQLException {
-        DatabaseMetaData dbmd = conexion.getMetaData();
-        ResultSet rs = dbmd.getColumns("add", null, "%a", null);
-        while (rs.next()) {
-            System.out.printf("");// ACABAR
+    public static void ejercicio9G() {
+        try {
+            DatabaseMetaData dbmd = conexion.getMetaData();
+            ResultSet rs = dbmd.getColumns("add", null, "a%", null);
+            while (rs.next()) {
+                System.out.printf(
+                        "Posicion:%s - Tabla:%s - Nombre Columna:%s - TipoDato:%s - TamañoCol:%s - Nulos:%s - Autoincrementado: %s\n",
+                        rs.getString("ORDINAL_POSITION"), rs.getString("TABLE_NAME"),
+                        rs.getString("COLUMN_NAME"), rs.getString("TYPE_NAME"), rs.getString("COLUMN_SIZE"),
+                        rs.getString("IS_NULLABLE"), rs.getString("IS_AUTOINCREMENT"));
+            }
+        } catch (SQLException e) {
         }
     }
 
-    public static void ejercicio9_h() throws SQLException {
-        DatabaseMetaData dbmd = conexion.getMetaData();
-        ResultSet rs = dbmd.getTables(null, null, null, null);
-        // ACABAR
+    public static void ejercicio9H() {
+        try {
+            DatabaseMetaData dbmd = conexion.getMetaData();
+            ResultSet rs = dbmd.getPrimaryKeys("add", null, null);
+            System.out.println("Claves Primarias:");
+            while (rs.next()) {
+                System.out.println(rs.getString("COLUMN_NAME"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL");
+        }
     }
 
-    // Ej 10
-    public static void obtenerDatos() {
+    public static void ejercicio9H2() {
+        try {
+            DatabaseMetaData dbmd = conexion.getMetaData();
+            String nomTabla = "";
+            ResultSet rsTablas = dbmd.getTables("add", null, null, null);
+            while (rsTablas.next()) {
+                nomTabla = rsTablas.getString("TABLE_NAME");
+                ResultSet rs = dbmd.getExportedKeys("add", null, nomTabla); // Esta linea da error
+                System.out.println("Claves Foraneas");
+                while (rs.next()) {
+                    System.out.println(rs.getString("FKCOLUMN_NAME"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL");
+        }
+    }
+
+    public static void ejercicio10() {
         try (Statement st = conexion.createStatement()) {
             String consulta = "select *, nombre as non from alumnos";
             ResultSet rs = st.executeQuery(consulta);
@@ -293,19 +329,150 @@ public class ejercicios {
     }
 
     public static void ejercicio12() {
-
-            try (Statement st = conexion.createStatement()) {
-                String consulta1 = String.format("INSERT INTO alumnos (nombre, apellidos, altura, aula) VALUES ('Carlos', 'Italiani', 192, 22)");
-                String consulta2 = String.format("INSERT INTO alumnos (nombre, apellidos, altura, aula) VALUES ('Hugo', 'Montes', 185, 22)");
-                int resultado = st.executeUpdate(consulta1);
-                System.out.println(resultado);
-            } catch (SQLException e) {
-                System.out.println("ERROR");
+        try {
+            conexion.setAutoCommit(false);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(
+                    "INSERT INTO alumnos (nombre, apellidos, altura, curso) VALUES ('Pablo', 'Santana Alonso', 170, 2)");
+            System.out.println("Inserción relizada correctamente");
+            conexion.commit();
+            System.out.println("Commit realizado");
+        } catch (SQLException e) {
+            System.out.println("Se ha producido un error en una consulta: " + e.getLocalizedMessage());
+            try {
+                if (conexion != null) {
+                    System.out.println("Se ha producido un error, deshaciendo cambios...");
+                    conexion.rollback();
+                }
+            } catch (SQLException i) {
+                System.out.println("Error en el rollback: " + i.getLocalizedMessage());
             }
         }
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void ejercicio12B() {
+        try {
+            conexion.setAutoCommit(false);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(
+                    "INSERT INTO alumnos (nombre, apellidos, altura, curso) VALUES ('Pablo', 'Santana Alonso', 170, 2)");
+            System.out.println("Inserción relizada correctamente");
+            conexion.commit();
+            System.out.println("Commit realizado");
+            st.close();
+        } catch (SQLException e) {
+            try {
+                conexion.rollback();
+            } catch (SQLException i) {
+                System.out.println("Error RollBack");
+            }
+        }
+    }
+
+    public static void ejercicio13() {
+        try (Statement st = conexion.createStatement()) {
+            ResultSet rs = st.executeQuery("SELECT * FROM imagenes WHERE nombre = 'escritor1.jpg'");
+            InputStream is = rs.getBinaryStream("imagen");
+            try (FileOutputStream fos = new FileOutputStream("C:\\imagenes\\imagenes.dat")) {
+                int i;
+                byte[] buffer = new byte[1000];
+                while ((i = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, i);
+                }
+                is.close();
+            } catch (IOException e) {
+                System.out.println("Error de archivo");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL");
+        }
+    }
+
+    public static void ejercicio13B() throws FileNotFoundException {
+        try (Statement st = conexion.createStatement()) {
+            try {
+                FileInputStream fis = new FileInputStream("C:\\imagenes\\imagenes.dat");
+                fis.read();
+                String consulta = "INSERT INTO imagenes VALUES (?,?)";
+                ps = conexion.prepareStatement(consulta);
+                ps.setString(1, "Nuevo_Nombre");
+                ps.setBinaryStream(2, fis, 64);
+            } catch (IOException e) {
+                System.out.println("Error de archivo");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL");
+        }
+    }
+
+    public static void ejercicio15() {
+        try {
+            int numeroAula = 0;
+            String nombreAula = "";
+            int puestos = 0;
+            CallableStatement cs = conexion.prepareCall("CALL getAulas(?,?)");
+            cs.setInt(1, 10);
+            cs.setString(2, "o");
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                numeroAula = rs.getInt("numero");
+                nombreAula = rs.getString("nombreAula");
+                puestos = rs.getInt("puestos");
+                System.out.printf("Numero:%2d, Nombre:%s, Puestos:%2d\n", numeroAula, nombreAula, puestos);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL");
+        }
+    }
+
+    public static void ejercicio15B() {
+        try {
+            CallableStatement cs = conexion.prepareCall("{ ? = CALL SUMA() }");
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.execute();
+            int resultado = cs.getInt(1);
+            System.out.println("Resultado:" + resultado);
+
+        } catch (SQLException e) {
+            System.out.println("Error SQL");
+        }
+    }
+
+    public static void ejercicio16(String textoBuscado, String bd) {
+        try {
+            DatabaseMetaData dbmd = conexion.getMetaData();
+            ResultSet tablas = dbmd.getTables(bd, null, "%", new String[] { "TABLE" });
+            while (tablas.next()) {
+                String nombreTabla = tablas.getString("TABLE_NAME");
+                ResultSet columnas = dbmd.getColumns(bd, null, nombreTabla, "%");
+                while (columnas.next()) {
+                    String nombreColumna = columnas.getString("COLUMN_NAME");
+                    String tipo = columnas.getString("TYPE_NAME");
+                    if (tipo.equalsIgnoreCase("CHAR") || tipo.equalsIgnoreCase("VARCHAR")) {
+                        String sql = "SELECT " + nombreColumna +
+                                " FROM " + nombreTabla +
+                                " WHERE " + nombreColumna + " LIKE ?";
+                        PreparedStatement ps = conexion.prepareStatement(sql);
+                        ps.setString(1, "%" + textoBuscado + "%");
+                        ResultSet rs = ps.executeQuery();
+                        while (rs.next()) {
+                            String valor = rs.getString(1);
+                            System.out.println("BD: " + bd + " | Tabla: " + nombreTabla + " | Columna: " + nombreColumna
+                                    + " | Valor: " + valor);
+                        }
+                        rs.close();
+                        ps.close();
+                    }
+                }
+                columnas.close();
+            }
+            tablas.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws SQLException, FileNotFoundException {
         abrirConexion("add", "localhost", "root", "");
         System.out.println("-----------EJERCICIO 1----------------");
         // consultarDatos("a");
@@ -347,28 +514,27 @@ public class ejercicios {
         System.out.println("-----------EJERCICIO 8----------------");
         // añadirColumna("imagenes", "curso", "TINYINT", "");
         System.out.println("-----------EJERCICIO 9----------------");
-        // ejercicio9_a();
-        // ejercicio9_b();
-        // ejercicio9_c();
-        // ejercicio9_d();
-        // ejercicio9_e();
-        // ejercicio9_f();
-        // ejercicio9_g();
-        // ejercicio9_h();
+        // ejercicio9A();
+        // ejercicio9B();
+        // ejercicio9C();
+        // ejercicio9D();
+        // ejercicio9E();
+        // ejercicio9F();
+        // ejercicio9G();
+        // ejercicio9H();
         System.out.println("-----------EJERCICIO 10----------------");
-        // obtenerDatos();
+        // ejercicio10();
         // cerrarConexion();
         System.out.println("-----------EJERCICIO 12----------------");
-        ejercicio12();
+        // ejercicio12();
+        // ejercicio12B();
         System.out.println("-----------EJERCICIO 13----------------");
-
+        // ejercicio13();
+        // ejercicio13B();
         System.out.println("-----------EJERCICIO 15----------------");
-
+        // ejercicio15();
+        // ejercicio15B();
         System.out.println("-----------EJERCICIO 16----------------");
+        // ejercicio16("e", "add");
     }
-    // try (Statement st = conexion.createStatement()){
-
-    // } catch (SQLException e) {
-    // System.out.println("ERROR");
-    // }
 }
