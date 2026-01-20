@@ -3,6 +3,8 @@ package ejem1;
 import java.util.ArrayList;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -16,19 +18,22 @@ import jakarta.ws.rs.core.Response;
 @Path("/personas")
 public class Personas {
     static ArrayList<Persona> personas = new ArrayList<Persona>();
-
+    
+    //Ej 3.1
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public void guardarPersonas(Persona persona) {
         personas.add(persona);
     }
-
+    
+    //Ej 3.2
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ArrayList<Persona> listarPersonas() {
         return personas;
     }
-
+    
+    //Ej 3.3
     @GET
     @Path("/{nombre}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,13 +45,14 @@ public class Personas {
         }
         return null;
     }
-
+    
+    //Ej 3.4
     @GET
     @Path("/buscar")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public ArrayList<Persona> ver(@QueryParam("cadena") String cadena) {
         ArrayList<Persona> personasConCadena = new ArrayList<>();
-        String cadenaLower = cadena.toLowerCase();
+        String cadenaLower = cadena.toLowerCase().trim();
         for (Persona p : personas) {
             if (p.getNombre().toLowerCase().contains(cadenaLower)) {
                 personasConCadena.add(p);
@@ -55,41 +61,15 @@ public class Personas {
         return personasConCadena;
     }
 
-    // @GET
-    // @Path("/form")
-    // @Produces(MediaType.TEXT_HTML)
-    // public String formularioHtml() {
-    // return "<html>"
-    // + "<body>"
-    // +"<form method=\"POST\"
-    // action=\"http://localhost:8080/tema5maven/rest/personas/form\">"
-    // + "<h1>Formulario</h1>"
-    // + "<input type=\"number\" name=\"id\" id=\"id\" placeholder=\"id\"><br><br>"
-    // + "<input type=\"text\" name=\"nombre\" id=\"nombre\"
-    // placeholder=\"Nombre\"><br><br> "
-    // + " <span>Estado civil: </span>"
-    // + " <input type=\"radio\" name=\"casado\" id=\"casado\" checked
-    // value=\"true\"><label for=\"genero1\">Casado</label> "
-    // + " <input type=\"radio\" name=\"casado\" id=\"soltero\"
-    // value=\"false\"><label for=\"genero2\">Soltero</label><br> "
-    // + "<span>Sexo: </span>"
-    // + "<input type=\"radio\" name=\"sexo\" id=\"genero1\" checked
-    // value=\"hombre\"><label for=\"genero1\">Hombre</label>"
-    // + "<input type=\"radio\" name=\"sexo\" id=\"genero2\" value=\"mujer\"><label
-    // for=\"genero2\">Mujer</label>"
-    // + "</form>"
-    // + "</body>"
-    // + "</html>";
-    // }
-
+    //Ej 3.6 
     @POST
     @Path("/form")
     @Consumes("application/x-www-form-urlencoded")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Persona> getCarText(@FormParam("id") int id,
-            @FormParam("nombre") String nombre,
-            @FormParam("casado") boolean casado,
-            @FormParam("sexo") String sexo) {
+    public ArrayList<Persona> insertarPorFormulario(@FormParam("id") int id,
+    @FormParam("nombre") String nombre,
+    @FormParam("casado") boolean casado,
+    @FormParam("sexo") String sexo) {
         Persona p = new Persona();
         p.setId(id);
         p.setNombre(nombre);
@@ -98,7 +78,8 @@ public class Personas {
         personas.add(p);
         return personas;
     }
-
+    
+    //Ej 3.7
     @POST
     @Path("/add")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -108,5 +89,33 @@ public class Personas {
             personas.add(persona);
         }
         return Response.ok(personas).build();
+    }
+
+    //Ej 3.8
+    @DELETE
+    @Path("/{id}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response eliminarPorId(@PathParam("id") int id) {
+        for (int i = personas.size(); i > 0; i--) {
+            if (personas.get(i).getId() == id) {
+                personas.remove(personas.get(i));
+            }
+        }
+        return Response.ok(personas).build();
+    }
+    
+    //Ej 3.9
+    @GET
+    @Path("/buscar2")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response verQueryParamPorDefecto(@DefaultValue("a") @QueryParam("cadena") String cadena){
+        ArrayList<Persona> personasConCadena = new ArrayList<>();
+        String cadenaLower = cadena.toLowerCase().trim();
+        for (Persona persona : personas) {
+            if (persona.getNombre().toLowerCase().contains(cadenaLower)) {
+                personasConCadena.add(persona);
+            }
+        }
+        return Response.ok(personasConCadena).build();
     }
 }

@@ -1,4 +1,5 @@
 package ejem1;
+import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement 
@@ -35,6 +36,7 @@ public class Persona {
         this.sexo = sexo;
     }
 
+    @XmlAttribute
     public int getId() {
         return id;
     }

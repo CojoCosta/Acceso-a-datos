@@ -22,17 +22,18 @@ public class EjerciciosDeportista {
     
     ArrayList<Deportista> deportistas = new ArrayList<>();
 
+    // Ejercicio 4.2
     @GET()
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response listaDeportistas() {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             try (Connection conexion = DriverManager.getConnection(url, user, password);
-                    Statement st = conexion.createStatement();
-                    ResultSet rs = st.executeQuery("SELECT * FROM deportistas")) {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM deportistas")) {
                 while (rs.next()) {
                     deportistas.add(new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
-                            rs.getString("deporte"), rs.getString("genero")));
+                    rs.getString("deporte"), rs.getString("genero")));
                 }
                 GenericEntity<List<Deportista>> entity = new GenericEntity<List<Deportista>>(deportistas) {};
                 return Response.ok(entity).build();
@@ -44,4 +45,7 @@ public class EjerciciosDeportista {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
     }
+    
+    // Ejercicio 4.3
+        
 }
