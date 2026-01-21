@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,7 +15,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.Scanner;
 
 public class ejercicios {
     private static Connection conexion;
@@ -210,8 +210,7 @@ public class ejercicios {
         nombre_sgbd = dbmd.getDatabaseProductName();
         version_sgbd = dbmd.getDatabaseProductVersion();
         palabras_sgbd = dbmd.getSQLKeywords();
-        System.out.printf(
-                "Nombre driver: %s \nVersión driver: %s \nURL: %s \nNombre sgbd: %s \nVersion sgbd: %s \nPalabras reservadas: %s\n",
+        System.out.printf("Nombre driver: %s \nVersión driver: %s \nURL: %s \nNombre sgbd: %s \nVersion sgbd: %s \nPalabras reservadas: %s\n",
                 nombre_driver, version_driver, url_conexion, nombre_sgbd, version_sgbd, palabras_sgbd);
     }
 
@@ -227,8 +226,7 @@ public class ejercicios {
         DatabaseMetaData dbmd = conexion.getMetaData();
         ResultSet rs = dbmd.getTables("add", null, null, null);
         while (rs.next()) {
-            System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"),
-                    rs.getString("TABLE_TYPE"));
+            System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"), rs.getString("TABLE_TYPE"));
         }
     }
 
@@ -237,8 +235,7 @@ public class ejercicios {
         ResultSet rs = dbmd.getTables("add", null, null, null);
         while (rs.next()) {
             if (rs.getString("TABLE_TYPE").equals("VIEW")) {
-                System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"),
-                        rs.getString("TABLE_TYPE"));
+                System.out.printf("Nombre de la tabla: %s \nTipo de tabla: %s\n\n", rs.getString("TABLE_NAME"), rs.getString("TABLE_TYPE"));
             }
         }
     }
@@ -326,14 +323,13 @@ public class ejercicios {
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
-    }
+    } 
 
     public static void ejercicio12() {
         try {
             conexion.setAutoCommit(false);
             Statement st = conexion.createStatement();
-            st.executeUpdate(
-                    "INSERT INTO alumnos (nombre, apellidos, altura, curso) VALUES ('Pablo', 'Santana Alonso', 170, 2)");
+            st.executeUpdate("INSERT INTO alumnos (nombre, apellidos, altura, curso) VALUES ('Pablo', 'Santana Alonso', 170, 2)");
             System.out.println("Inserción relizada correctamente");
             conexion.commit();
             System.out.println("Commit realizado");
@@ -391,12 +387,13 @@ public class ejercicios {
     public static void ejercicio13B() throws FileNotFoundException {
         try (Statement st = conexion.createStatement()) {
             try {
-                FileInputStream fis = new FileInputStream("C:\\imagenes\\imagenes.dat");
-                fis.read();
+                File f = new File("C:\\imagenes\\imagenes.dat");
+                FileInputStream fis = new FileInputStream(f);
+                
                 String consulta = "INSERT INTO imagenes VALUES (?,?)";
                 ps = conexion.prepareStatement(consulta);
                 ps.setString(1, "Nuevo_Nombre");
-                ps.setBinaryStream(2, fis, 64);
+                ps.setBinaryStream(2, fis, f.length());
             } catch (IOException e) {
                 System.out.println("Error de archivo");
             }
@@ -449,16 +446,13 @@ public class ejercicios {
                     String nombreColumna = columnas.getString("COLUMN_NAME");
                     String tipo = columnas.getString("TYPE_NAME");
                     if (tipo.equalsIgnoreCase("CHAR") || tipo.equalsIgnoreCase("VARCHAR")) {
-                        String sql = "SELECT " + nombreColumna +
-                                " FROM " + nombreTabla +
-                                " WHERE " + nombreColumna + " LIKE ?";
+                        String sql = "SELECT " + nombreColumna + " FROM " + nombreTabla + " WHERE " + nombreColumna + " LIKE ?";
                         PreparedStatement ps = conexion.prepareStatement(sql);
                         ps.setString(1, "%" + textoBuscado + "%");
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
                             String valor = rs.getString(1);
-                            System.out.println("BD: " + bd + " | Tabla: " + nombreTabla + " | Columna: " + nombreColumna
-                                    + " | Valor: " + valor);
+                            System.out.println("BD: " + bd + " | Tabla: " + nombreTabla + " | Columna: " + nombreColumna + " | Valor: " + valor);
                         }
                         rs.close();
                         ps.close();
@@ -471,6 +465,8 @@ public class ejercicios {
             e.printStackTrace();
         }
     }
+    // BaseDataMetaDAta => Cuando conoces los datos de la base de datos(tablas, columnas..)
+    // BaseDataMetaDAta => Cuando conoces NO los datos de la base de datos
 
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         abrirConexion("add", "localhost", "root", "");
