@@ -63,8 +63,7 @@ public class EjerciciosDeportista {
                     Statement st = conexion.createStatement();
                     ResultSet rs = st.executeQuery(String.format("SELECT * FROM deportistas WHERE id = %d", id))) {
                 while (rs.next()) {
-                    deportista = new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
-                            rs.getString("deporte"), rs.getString("genero"));
+                    deportista = new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"), rs.getString("deporte"), rs.getString("genero"));
                 }
                 return Response.ok(deportista).build();
             } catch (Exception e) {
@@ -206,4 +205,33 @@ public class EjerciciosDeportista {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
     }
+
+    // Ejercicio 4.9 Deportes por genero (/xg): Lista un array con dos elementos:
+    // uno con todos los deportistas masculinos y otro con todos los deportistas
+    // femeninos.
+    @GET
+    @Path("/xg")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deportistasPorGenero() {
+        ArrayList<Response> deportistasHombres = new ArrayList<>();
+        deportistasHombres.add(deportistasMasculinos());
+        ArrayList<Response> deportistasMujeres = new ArrayList<>();
+        deportistasHombres.add(deportistasFemeninos());
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            try (Connection conexion = DriverManager.getConnection(url, user, password)) {
+                Statement st = conexion.createStatement();
+                ResultSet rsMasc = st.executeQuery("SELECT * FROM deportistas WHERE genero LIKE 'masculino'");
+                ResultSet rsFem = st.executeQuery("SELECT * FROM deportistas WHERE genero LIKE 'femenino'");
+                while (rsMasc.next()) {
+                    
+                }
+            } catch (Exception e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+            }
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+    }
+
 }
