@@ -217,6 +217,9 @@ public class EjerciciosDeportista {
         deportistasHombres.add(deportistasMasculinos());
         ArrayList<Response> deportistasMujeres = new ArrayList<>();
         deportistasHombres.add(deportistasFemeninos());
+        ArrayList<ArrayList<Response>> mascYFem = new ArrayList<>();
+        mascYFem.add(deportistasMujeres);
+        mascYFem.add(deportistasHombres);
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             try (Connection conexion = DriverManager.getConnection(url, user, password)) {
