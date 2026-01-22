@@ -15,6 +15,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/deportista")
 public class EjerciciosDeportista {
@@ -63,7 +64,8 @@ public class EjerciciosDeportista {
                     Statement st = conexion.createStatement();
                     ResultSet rs = st.executeQuery(String.format("SELECT * FROM deportistas WHERE id = %d", id))) {
                 while (rs.next()) {
-                    deportista = new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"), rs.getString("deporte"), rs.getString("genero"));
+                    deportista = new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
+                            rs.getString("deporte"), rs.getString("genero"));
                 }
                 return Response.ok(deportista).build();
             } catch (Exception e) {
@@ -162,27 +164,25 @@ public class EjerciciosDeportista {
         ArrayList<Deportista> deportistasHombres = new ArrayList<>();
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            try (Connection conexion = DriverManager.getConnection(url, user, password);
-                    Statement st = conexion.createStatement();
-                    ResultSet rs = st.executeQuery("SELECT * FROM deportistas WHERE genero LIKE 'masculino'")) {
-                while (rs.next()) {
-                    deportistasHombres.add(new Deportista(rs.getInt("id"), rs.getString("nombre"),
-                            rs.getBoolean("activo"), rs.getString("deporte"), rs.getString("genero")));
-                }
-                GenericEntity<List<Deportista>> entity = new GenericEntity<List<Deportista>>(deportistasHombres) {
-                };
-                return Response.ok(entity).build();
-            } catch (Exception e) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
-            }
         } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+        try (Connection conexion = DriverManager.getConnection(url, user, password)) {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM deportistas WHERE genero LIKE 'masculino'");
+            while (rs.next()) {
+                deportistasHombres.add(new Deportista(rs.getInt("id"), rs.getString("nombre"),
+                        rs.getBoolean("activo"), rs.getString("deporte"), rs.getString("genero")));
+            }
+            return Response.ok(deportistasHombres).build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
     }
 
-    // Ejercicio 4.8 Femeninos (/femeninos): Lista los deportistas femeninos
+    // // Ejercicio 4.8 Femeninos (/femeninos): Lista los deportistas femeninos
     @GET
-    @Path("/masculinos")
+    @Path("/femeninos")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response deportistasFemeninos() {
         ArrayList<Deportista> deportistasHembras = new ArrayList<>();
@@ -195,9 +195,7 @@ public class EjerciciosDeportista {
                     deportistasHembras.add(new Deportista(rs.getInt("id"), rs.getString("nombre"),
                             rs.getBoolean("activo"), rs.getString("deporte"), rs.getString("genero")));
                 }
-                GenericEntity<List<Deportista>> entity = new GenericEntity<List<Deportista>>(deportistasHembras) {
-                };
-                return Response.ok(entity).build();
+                return Response.ok(deportistasHembras).build();
             } catch (Exception e) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
             }
@@ -212,29 +210,91 @@ public class EjerciciosDeportista {
     @GET
     @Path("/xg")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response deportistasPorGenero() {
-        ArrayList<Response> deportistasHombres = new ArrayList<>();
-        deportistasHombres.add(deportistasMasculinos());
-        ArrayList<Response> deportistasMujeres = new ArrayList<>();
-        deportistasHombres.add(deportistasFemeninos());
-        ArrayList<ArrayList<Response>> mascYFem = new ArrayList<>();
-        mascYFem.add(deportistasMujeres);
-        mascYFem.add(deportistasHombres);
+    public Response deportistasPorGenero() throws ClassNotFoundException {
+        ArrayList<Response> masculino = new ArrayList<>();
+        masculino.add(deportistasMasculinos());
+
+        ArrayList<Response> femenino = new ArrayList<>();
+        femenino.add(deportistasFemeninos());
+
+        ArrayList<ArrayList<Response>> general = new ArrayList<>();
+        general.add(masculino);
+        general.add(femenino);
+        return Response.ok(general).build();
+    }
+
+    // Ejercicio 4.10 Activos por deporte (/deporte/{nombreDeporte}/activos): Lista
+    // los deportistas activos de un deporte.
+    @GET
+    @Path("/deporte/{nombreDeporte}/activos")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response activosPorDeporte(@PathParam("nombreDeporte") String nombreDeporte) {
+        ArrayList<Deportista> activosPorDeporte = new ArrayList<>();
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            try (Connection conexion = DriverManager.getConnection(url, user, password)) {
-                Statement st = conexion.createStatement();
-                ResultSet rsMasc = st.executeQuery("SELECT * FROM deportistas WHERE genero LIKE 'masculino'");
-                ResultSet rsFem = st.executeQuery("SELECT * FROM deportistas WHERE genero LIKE 'femenino'");
-                while (rsMasc.next()) {
-                    
-                }
-            } catch (Exception e) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
-            }
         } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+        try (Connection conexion = DriverManager.getConnection(url, user, password)) {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(String
+                    .format("SELECT * FROM deportistas WHERE activo = true and deporte like '%s'", nombreDeporte));
+            while (rs.next()) {
+                activosPorDeporte.add(new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
+                        rs.getString("deporte"), rs.getString("genero")));
+            }
+            return Response.ok(activosPorDeporte).build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
     }
 
+    // Ejercicio 4.11 Contar deportistas (/sdepor): Cuenta el número de deportistas
+    // distintos.
+    @GET
+    @Path("/sdepor")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response numeroDeDeportistas(){
+        int numDeportistas = 0;
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+        try (Connection conexion = DriverManager.getConnection(url, user, password)) {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM deportistas");
+            while (rs.next()) {
+                numDeportistas++;
+            }
+            return Response.ok(numDeportistas).build();
+        }catch (Exception e) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+    }
+
+    // Ejercicio 4.12 Lista deportes (/deportes): Lista los deportes existentes ordenados alfabéticamente sin repeticiones.
+    @GET
+    @Path("/deportes")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response deportes(){
+        ArrayList<Deportista> deporte = new ArrayList<>();
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+        try (Connection conexion = DriverManager.getConnection(url, user, password)) {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT DISTINCT(deporte) FROM deportistas ORDER BY deporte;");
+            while (rs.next()) {
+                deporte.add(new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
+                        rs.getString("deporte"), rs.getString("genero")));
+            }
+            return Response.ok(deporte).build();
+        }catch (Exception e) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+    }
 }
