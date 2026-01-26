@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -24,6 +26,23 @@ public class EjerciciosDeportista {
     private static final String password = "";
 
     ArrayList<Deportista> deportistas = new ArrayList<>();
+    //Subir una consulta
+    @POST
+    @Path("/android")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response subirDeportistaAndroid(Deportista deportista) {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(String.format("INSERT INTO deportistas (nombre, deporte) VALUES ('%s', '%s')",
+                    deportista.getNombre(), deportista.getDeporte()));
+
+            return Response.ok("Subido correctamente").build(); // Esto solo muestra json
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
+        }
+    }
 
     // Ejercicio 4.2 Todos (/): devuelve un listado con todos los deportistas del
     // sistema.
@@ -254,7 +273,7 @@ public class EjerciciosDeportista {
     @GET
     @Path("/sdepor")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response numeroDeDeportistas(){
+    public Response numeroDeDeportistas() {
         int numDeportistas = 0;
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -268,22 +287,24 @@ public class EjerciciosDeportista {
                 numDeportistas++;
             }
             return Response.ok(numDeportistas).build();
-        }catch (Exception e) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
     }
 
-    // Ejercicio 4.12 Lista deportes (/deportes): Lista los deportes existentes ordenados alfabéticamente sin repeticiones.
+    // Ejercicio 4.12 Lista deportes (/deportes): Lista los deportes existentes
+    // ordenados alfabéticamente sin repeticiones.
     @GET
     @Path("/deportes")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response deportes(){
+    public Response deportes() {
         ArrayList<Deportista> deporte = new ArrayList<>();
 
         try {
             Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA")
+                    .build();
         }
         try (Connection conexion = DriverManager.getConnection(url, user, password)) {
             Statement st = conexion.createStatement();
@@ -293,8 +314,8 @@ public class EjerciciosDeportista {
                         rs.getString("deporte"), rs.getString("genero")));
             }
             return Response.ok(deporte).build();
-        }catch (Exception e) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
     }
 }
