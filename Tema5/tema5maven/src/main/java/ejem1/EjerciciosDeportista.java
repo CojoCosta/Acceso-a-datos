@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -26,7 +27,8 @@ public class EjerciciosDeportista {
     private static final String password = "";
 
     ArrayList<Deportista> deportistas = new ArrayList<>();
-    //Subir una consulta
+
+    // Subir una consulta
     @POST
     @Path("/android")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -37,7 +39,6 @@ public class EjerciciosDeportista {
             Statement st = conexion.createStatement();
             st.executeUpdate(String.format("INSERT INTO deportistas (nombre, deporte) VALUES ('%s', '%s')",
                     deportista.getNombre(), deportista.getDeporte()));
-
             return Response.ok("Subido correctamente").build(); // Esto solo muestra json
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
@@ -298,24 +299,82 @@ public class EjerciciosDeportista {
     @Path("/deportes")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response deportes() {
-        ArrayList<Deportista> deporte = new ArrayList<>();
-
+        ArrayList<String> deportes = new ArrayList<>();
         try {
             Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA")
                     .build();
         }
-        try (Connection conexion = DriverManager.getConnection(url, user, password)) {
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT DISTINCT(deporte) FROM deportistas ORDER BY deporte;");
+        try (Connection conexion = DriverManager.getConnection(url, user, password);
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery("SELECT DISTINCT(deporte) FROM deportistas ORDER BY deporte;")) {
             while (rs.next()) {
-                deporte.add(new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
-                        rs.getString("deporte"), rs.getString("genero")));
+                deportes.add(rs.getString("deporte"));
             }
-            return Response.ok(deporte).build();
+            return Response.ok(deportes).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+    }
+
+    // Ejercicio 4.13. Crear deportista (/): Añade un deportista en el sistema.
+    @POST
+    @Path("/nuevo")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response crearDeportista(Deportista deportista) {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+        try {
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(String.format("INSERT INTO deportistas (nombre, activo, deporte, genero) VALUES ('%s', '%s', '%s', '%s')", deportista.getNombre(), deportista.getActivo(), deportista.getDeporte(), deportista.getGenero()));
+            return Response.ok("Subido correctamente").build(); // Esto solo muestra json
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
+        }
+    }
+
+    //Ejercicio 4.14. Crear deportista formulario (/): Añade un deportista mediante un formulario
+    @POST
+    @Path("/form")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response crearDeportistaForm(@FormParam("nombre") String nombre, @FormParam("activo") boolean activo, @FormParam("deporte") String deporte, @FormParam("genero") String genero) {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+        try {
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(String.format("INSERT INTO deportistas (nombre, activo, deporte, genero) VALUES ('%s', '%s', '%s', '%s')", nombre, activo, deporte, genero));
+            return Response.ok("Subido correctamente").build(); // Esto solo muestra json
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
+        }
+    }
+
+    @POST
+    @Path("/adds")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response crearDeportistasistema(Deportista deportista) {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+        try {
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(String.format("INSERT INTO deportistas (nombre, activo, deporte, genero) VALUES ('%s', '%s', '%s', '%s')", deportista.getNombre(), deportista.getActivo(), deportista.getDeporte(), deportista.getGenero()));
+            return Response.ok("Subido correctamente").build(); // Esto solo muestra json
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
         }
     }
 }

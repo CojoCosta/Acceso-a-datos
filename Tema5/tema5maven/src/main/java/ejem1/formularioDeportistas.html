@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Añadir deportistas</title>
 </head>
-
 <body>
-    <form method="POST" action="http://localhost:8080/tema5maven/rest/personas/form">
+    <form method="POST" action="http://localhost:8080/tema5maven/rest/deportista/form">
         <h1>Formulario</h1>
-        <input type="number" name="id" placeholder="id"><br><br>
         <input type="text" name="nombre" placeholder="Nombre"><br><br>
-        <span>Estado civil: </span>
-        <input type="radio" name="casado" checked value="true"><label for="genero1">Casado</label>
-        <input type="radio" name="casado" value="false"><label for="genero2">Soltero</label><br>
-        <span>Sexo: </span>
+        <span>Activo: </span>
+        <input type="radio" name="activo" checked value="true"><label for="genero1">Activo</label>
+        <input type="radio" name="activo" value="false"><label for="genero2">No activo</label><br>
+        <input type="text" name="deporte" placeholder="Deporte"><br><br>
+        <span>Genero: </span>
         <input type="radio" name="sexo" checked value="hombre"><label for="genero1">Hombre</label>
         <input type="radio" name="sexo" value="mujer"><label for="genero2">Mujer</label><br>
         <input type="submit" value="enviar">
     </form>
 </body>
-
 </html>
