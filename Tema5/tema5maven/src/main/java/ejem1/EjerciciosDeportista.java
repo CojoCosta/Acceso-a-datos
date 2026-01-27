@@ -377,4 +377,5 @@ public class EjerciciosDeportista {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
         }
     }
+    
 }
