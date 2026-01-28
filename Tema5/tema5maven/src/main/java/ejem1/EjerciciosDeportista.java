@@ -58,8 +58,7 @@ public class EjerciciosDeportista {
                     Statement st = conexion.createStatement();
                     ResultSet rs = st.executeQuery("SELECT * FROM deportistas")) {
                 while (rs.next()) {
-                    deportistas.add(new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"),
-                            rs.getString("deporte"), rs.getString("genero")));
+                    deportistas.add(new Deportista(rs.getInt("id"), rs.getString("nombre"), rs.getBoolean("activo"), rs.getString("deporte"), rs.getString("genero")));
                 }
                 GenericEntity<List<Deportista>> entity = new GenericEntity<List<Deportista>>(deportistas) {
                 };
@@ -450,7 +449,8 @@ public class EjerciciosDeportista {
     //Ejercicio 4.19. Imágenes deportistas (/img/{id}): Muestra el nombre y las imágenes del deportista id como html.
     @GET
     @Path("img/{id}")
-    @Produces("image/jpg")
+    // @Produces("image/jpg")
+    @Produces(MediaType.TEXT_HTML)
     public Response imagenesDeportistas(@PathParam("id") int id){
                 try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -458,15 +458,17 @@ public class EjerciciosDeportista {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
         try {
+            String nombre = "";
             String ruta = "";
             Connection conexion = DriverManager.getConnection(url, user, password);
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(String.format("SELECT * FROM deportistas JOIN imagenes USING (id) WHERE id = %d", id));
             while (rs.next()) {
+                nombre = rs.getString("deportistas.nombre");
                 ruta = "C:\\imagenes\\imagenes\\" + rs.getString("imagenes.nombre");
             }
             FileInputStream fis = new FileInputStream(new File(ruta));
-            return Response.ok(fis).build();
+            return Response.ok(nombre + fis).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Esto sale porque: Iago no haces bien tu trabajo").build();
         }
