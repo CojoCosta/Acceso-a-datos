@@ -1,5 +1,7 @@
 package ejem1;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -431,13 +433,42 @@ public class EjerciciosDeportista {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
         }
         try {
+            String ruta = "";
             Connection conexion = DriverManager.getConnection(url, user, password);
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(String.format("SELECT * FROM imagenes WHERE id = %d AND nombre LIKE '%d_%d_%%'", id, id, num));
-            return Response.ok(rs).build();
+            ResultSet rs = st.executeQuery(String.format("SELECT nombre FROM imagenes WHERE id = %d AND nombre LIKE '%d_%d_%%'", id, id, num));
+            while (rs.next()) {
+                ruta = "C:\\imagenes\\imagenes\\" + rs.getString("nombre");
+            }
+            FileInputStream fis = new FileInputStream(new File(ruta));
+            return Response.ok(fis).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
         }
+    }
 
+    //Ejercicio 4.19. Imágenes deportistas (/img/{id}): Muestra el nombre y las imágenes del deportista id como html.
+    @GET
+    @Path("img/{id}")
+    @Produces("image/jpg")
+    public Response imagenesDeportistas(@PathParam("id") int id){
+                try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+        try {
+            String ruta = "";
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM deportistas JOIN imagenes USING (id) WHERE id = %d", id));
+            while (rs.next()) {
+                ruta = "C:\\imagenes\\imagenes\\" + rs.getString("imagenes.nombre");
+            }
+            FileInputStream fis = new FileInputStream(new File(ruta));
+            return Response.ok(fis).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Esto sale porque: Iago no haces bien tu trabajo").build();
+        }
     }
 }
