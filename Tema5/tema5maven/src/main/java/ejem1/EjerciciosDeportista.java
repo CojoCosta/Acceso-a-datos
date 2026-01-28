@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 
 @Path("/deportista")
 public class EjerciciosDeportista {
@@ -359,10 +359,11 @@ public class EjerciciosDeportista {
         }
     }
 
+    //Ejercicio 4.15. Crear deportistas (/adds): crea deportistas en el sistema.
     @POST
     @Path("/adds")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response crearDeportistasistema(Deportista deportista) {
+    public Response crearDeportistasistema(ArrayList<Deportista> deportistas) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -371,11 +372,72 @@ public class EjerciciosDeportista {
         try {
             Connection conexion = DriverManager.getConnection(url, user, password);
             Statement st = conexion.createStatement();
-            st.executeUpdate(String.format("INSERT INTO deportistas (nombre, activo, deporte, genero) VALUES ('%s', '%s', '%s', '%s')", deportista.getNombre(), deportista.getActivo(), deportista.getDeporte(), deportista.getGenero()));
+            for (Deportista deportista : deportistas) {
+                st.executeUpdate(String.format("INSERT INTO deportistas (nombre, activo, deporte, genero) VALUES ('%s', '%s', '%s', '%s')", deportista.getNombre(), deportista.getActivo(), deportista.getDeporte(), deportista.getGenero()));
+            }
             return Response.ok("Subido correctamente").build(); // Esto solo muestra json
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error").build();
         }
     }
-    
+
+    //Ejercicio 4.16. Actualizar deportista (/): actualiza la información relativa a un deportista.
+    @PUT
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response actualizarDeportista(Deportista deportista){
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+        try {
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(String.format("UPDATE deportistas SET nombre = '%s', activo = '%s', deporte = '%s', genero = '%s' WHERE id = %d", deportista.getNombre(), deportista.getActivo(), deportista.getDeporte(), deportista.getGenero(), deportista.getId()));
+            return Response.ok(deportista).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+    }
+
+    // Ejercicio 4.17. Borrar deportista (/del/{id}): elimina la información relativa a un deportista id.
+    @DELETE
+    @Path("/del/{id}")
+    public Response borrarPorId(@PathParam("id") int id){
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+        try {
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            st.executeUpdate(String.format("DELETE FROM deportistas WHERE id = %d", id));
+            return Response.ok("eliminado").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+    }
+
+    //Ejercicio 4.18. Imagen deportista (/img/{id}/{num}): Muestra la imagen num del deportista id como image/jpg.
+    @GET
+    @Path("/img/{id}/{num}")
+    @Produces("image/jpg")
+    public Response imagenesPorIdNum(@PathParam("id") int id, @PathParam("num") int num){
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver").build();
+        }
+        try {
+            Connection conexion = DriverManager.getConnection(url, user, password);
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(String.format("SELECT * FROM imagenes WHERE id = %d AND nombre LIKE '%d_%d_%%'", id, id, num));
+            return Response.ok(rs).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No encuentra el driver AAAAAAA").build();
+        }
+
+    }
 }
