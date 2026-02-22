@@ -45,6 +45,7 @@ public class practica {
             System.out.println("ERROR");
         }
     }
+
     public static void borrarJugador(int dorsal){
         try (Statement st = conexion.createStatement()){
             String consulta = "DELETE FROM jugadores_celta WHERE dorsal=" + dorsal;
@@ -96,6 +97,7 @@ public class practica {
             System.out.println(rs.getInt(1) + "\t" +rs.getString(2));
         }
     }
+
     public static void getInfo(String db) {
         try {
             DatabaseMetaData dbmt = conexion.getMetaData();
@@ -108,6 +110,7 @@ public class practica {
             System.out.println("ERROR");
         }
     }
+    
     public static void main(String[] args) throws SQLException {
         abrirConexion("celta", "localhost", "root", "");
 

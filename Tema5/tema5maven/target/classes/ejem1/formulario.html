@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form method="POST" action="http://localhost:8080/tema5maven/rest/personas/form">
+        <h1>Formulario</h1>
+        <input type="number" name="id" placeholder="id"><br><br>
+        <input type="text" name="nombre" placeholder="Nombre"><br><br>
+        <span>Estado civil: </span>
+        <input type="radio" name="casado" checked value="true"><label for="genero1">Casado</label>
+        <input type="radio" name="casado" value="false"><label for="genero2">Soltero</label><br>
+        <span>Sexo: </span>
+        <input type="radio" name="sexo" checked value="hombre"><label for="genero1">Hombre</label>
+        <input type="radio" name="sexo" value="mujer"><label for="genero2">Mujer</label><br>
+        <input type="submit" value="enviar">
+    </form>
+</body>
+
+</html>
